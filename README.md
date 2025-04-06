@@ -1,2 +1,2 @@
 # Void-Xcape
-A project by Group Anything for SDP
+A project for Software Development Practice (W103) by Group Anything 
