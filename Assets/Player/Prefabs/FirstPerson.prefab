@@ -213,10 +213,17 @@ MonoBehaviour:
   playerBodyModel: {fileID: 1503450940262632355}
   walkSpeed: 5
   runSpeed: 10
+  crouchSpeed: 2
   jumpForce: 8
   gravity: 20
   lookSpeed: 2
   lookXLimit: 45
+  crouchHeight: 1
+  standingHeight: 2
+  cameraCrouchOffset: -0.5
+  crouchTransitionSpeed: 6
+  armsTransform: {fileID: 2276151825220800793}
+  armsCrouchOffset: {x: 0, y: -0.4, z: 0}
 --- !u!1001 &1737331158969612018
 PrefabInstance:
   m_ObjectHideFlags: 0

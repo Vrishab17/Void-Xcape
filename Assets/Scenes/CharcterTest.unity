@@ -167,6 +167,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
+      propertyPath: armsTransform
+      value: 
+      objectReference: {fileID: 1171520834}
+    - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
+      propertyPath: armsCrouchOffset.x
+      value: -0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
+      propertyPath: armsCrouchOffset.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
+      propertyPath: armsCrouchOffset.z
+      value: -0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
+      propertyPath: cameraCrouchOffset
+      value: -1
+      objectReference: {fileID: 0}
     - target: {fileID: 8124529268615257780, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
       propertyPath: m_Name
       value: FirstPerson
@@ -405,6 +425,11 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
+--- !u!4 &1171520834 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2276151825220800793, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
+  m_PrefabInstance: {fileID: 79867145}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1530241971
 GameObject:
   m_ObjectHideFlags: 0
