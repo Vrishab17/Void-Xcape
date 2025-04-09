@@ -4,8 +4,7 @@
 public class PlayerMovement : MonoBehaviour
 {
     public Camera playerCamera;
-    public GameObject playerBodyModel1; // <- drag your full-body model here in the inspector
-    public GameObject playerBodyModel2;
+    public GameObject playerBodyModel;
 
     [Header("Movement Settings")]
     public float walkSpeed = 5f;
@@ -21,22 +20,18 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 moveDirection = Vector3.zero;
     private float rotationX = 0;
 
-    private Animator animator1;
-    private Animator animator2;
+    private Animator animator;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
 
         // Get animator from the full-body model (not this GameObject)
-        if (playerBodyModel1 != null)
+        if (playerBodyModel != null)
         {
-            animator1 = playerBodyModel1.GetComponent<Animator>();
+            animator = playerBodyModel.GetComponent<Animator>();
         }
-        if (playerBodyModel1 != null)
-        {
-            animator2 = playerBodyModel2.GetComponent<Animator>();
-        }
+        
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
@@ -54,21 +49,15 @@ public class PlayerMovement : MonoBehaviour
         bool hasMovementInput = Mathf.Abs(moveX) > 0.1f || Mathf.Abs(moveZ) > 0.1f;
 
         // Update animator states
-        if (animator1 != null)
+        if (animator != null)
         {
-            animator1.SetBool("isWalking", hasMovementInput);
-
-        }
-        if (animator2 != null)
-        {
-            animator2.SetBool("isWalking", hasMovementInput);
+            animator.SetBool("isWalking", hasMovementInput);
 
         }
 
         // Calculate movement
         float speed = isRunning ? runSpeed : walkSpeed;
-        animator1.SetBool("isRunning", isRunning);
-        animator2.SetBool("isRunning", isRunning);
+        animator.SetBool("isRunning", isRunning);
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
         Vector3 flatMovement = (forward * moveZ + right * moveX) * speed;
