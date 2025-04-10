@@ -172,6 +172,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1171520834}
     - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
+      propertyPath: armsCrouchScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
+      propertyPath: armsCrouchScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
+      propertyPath: armsCrouchScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
       propertyPath: armsCrouchOffset.x
       value: -0.2
       objectReference: {fileID: 0}
@@ -185,7 +197,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
       propertyPath: cameraCrouchOffset
-      value: -1
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
+      propertyPath: armsCrouchOffsetIdle.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
+      propertyPath: armsCrouchOffsetIdle.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
+      propertyPath: armsCrouchOffsetIdle.z
+      value: -0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
+      propertyPath: armsCrouchOffsetWalk.y
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
+      propertyPath: armsCrouchOffsetWalk.z
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8124529268615257780, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
       propertyPath: m_Name
