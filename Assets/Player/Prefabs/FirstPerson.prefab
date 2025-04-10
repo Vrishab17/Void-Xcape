@@ -149,6 +149,7 @@ GameObject:
   - component: {fileID: 3039595653323768508}
   - component: {fileID: 6727644901494831439}
   - component: {fileID: 7516905869052522796}
+  - component: {fileID: 3983574217821746807}
   m_Layer: 0
   m_Name: FirstPerson
   m_TagString: Untagged
@@ -227,6 +228,29 @@ MonoBehaviour:
   armsCrouchOffsetWalk: {x: 0, y: -0.1, z: -0.5}
   armsCrouchScale: {x: 1.5, y: 1.5, z: 1.5}
   crouchAnimDelay: 0.5
+--- !u!136 &3983574217821746807
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8124529268615257780}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!1001 &1737331158969612018
 PrefabInstance:
   m_ObjectHideFlags: 0
