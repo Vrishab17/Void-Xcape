@@ -3,17 +3,21 @@ using UnityEngine.AI;
 
 public class EnemyAI : MonoBehaviour
 {
+    public GameObject enemyBodyModel;
+    private Animator animator;
     public float wanderRadius = 10f;
     public float wanderTimer = 5f;
     public float detectionRange = 10f;
     public Transform player;
 
     private NavMeshAgent agent;
-    private Animator animator;
     private float timer;
 
     void Start()
     {
+        if(enemyBodyModel != null){
+            animator = enemyBodyModel.GetComponent<Animator>();
+        }
         agent = GetComponent<NavMeshAgent>();
         animator = GetComponent<Animator>();
         timer = wanderTimer;
@@ -31,11 +35,13 @@ public class EnemyAI : MonoBehaviour
         {
             agent.speed = 6f; // Run speed
             agent.SetDestination(player.position);
+            animator.SetBool("isDetected", true);
         }
         else
         {
             agent.speed = 2f; // Walk speed
             timer += Time.deltaTime;
+            animator.SetBool("isDetected", false);
 
             if (timer >= wanderTimer)
             {
@@ -46,10 +52,6 @@ public class EnemyAI : MonoBehaviour
         }
 
         // Animation
-        if (animator != null)
-        {
-            animator.SetFloat("Speed", agent.velocity.magnitude);
-        }
     }
 
     public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
