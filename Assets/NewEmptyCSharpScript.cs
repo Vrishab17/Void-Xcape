@@ -37,7 +37,7 @@ public class EnemyAI : MonoBehaviour
         if (distance <= attackRange)
         {
             // Stop moving to allow the attack to start
-            agent.SetDestination(transform.position);
+            agent.SetDestination(transform.position);  // Stop the agent's movement
 
             // Ensure the enemy is at a safe distance in front of the player, not inside them
             if (!hasJumpAttacked)
@@ -72,8 +72,13 @@ public class EnemyAI : MonoBehaviour
             animator.SetInteger("AttackStage", 0);
 
             // Continue chasing the player if they are in detection range
+            agent.isStopped = false; // Allow movement again
             agent.speed = 6f;
             agent.SetDestination(player.position);
+
+            // Set running animation
+            animator.SetBool("IsRunning", true);
+            animator.SetBool("IsWalking", false);
         }
 
         // Animation speed for movement
@@ -84,15 +89,15 @@ public class EnemyAI : MonoBehaviour
 
         if (distanceToPlayer <= detectionRange)
         {
-            agent.speed = 6f; // Run speed
-            agent.SetDestination(player.position);
-            animator.SetBool("isDetected", true);
+            // If player is detected, chase the player
+            animator.SetBool("IsDetected", true);
         }
         else
         {
+            // If not detected, start wandering behavior
+            animator.SetBool("IsDetected", false);
             agent.speed = 2f; // Walk speed
             timer += Time.deltaTime;
-            animator.SetBool("isDetected", false);
 
             if (timer >= wanderTimer)
             {
@@ -100,6 +105,10 @@ public class EnemyAI : MonoBehaviour
                 agent.SetDestination(newPos);
                 timer = 0;
             }
+
+            // Set walking animation
+            animator.SetBool("IsWalking", true);
+            animator.SetBool("IsRunning", false);
         }
     }
 
