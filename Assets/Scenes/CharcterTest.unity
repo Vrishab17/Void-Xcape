@@ -172,6 +172,18 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1171520834}
     - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
+      propertyPath: armsCrouchScale.x
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
+      propertyPath: armsCrouchScale.y
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
+      propertyPath: armsCrouchScale.z
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
       propertyPath: armsCrouchOffset.x
       value: -0.2
       objectReference: {fileID: 0}
@@ -185,7 +197,27 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
       propertyPath: cameraCrouchOffset
-      value: -1
+      value: -0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
+      propertyPath: armsCrouchOffsetIdle.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
+      propertyPath: armsCrouchOffsetIdle.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
+      propertyPath: armsCrouchOffsetIdle.z
+      value: -0.15
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
+      propertyPath: armsCrouchOffsetWalk.y
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7516905869052522796, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
+      propertyPath: armsCrouchOffsetWalk.z
+      value: -0.5
       objectReference: {fileID: 0}
     - target: {fileID: 8124529268615257780, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
       propertyPath: m_Name
@@ -442,6 +474,7 @@ GameObject:
   - component: {fileID: 1530241974}
   - component: {fileID: 1530241973}
   - component: {fileID: 1530241972}
+  - component: {fileID: 1530241976}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Untagged
@@ -539,6 +572,33 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!54 &1530241976
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1530241971}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 1
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
