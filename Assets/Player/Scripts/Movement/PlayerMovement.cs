@@ -20,30 +20,33 @@ public class PlayerMovement : MonoBehaviour
     [Header("Crouch Settings")]
     public float crouchHeight = 1f;
     public float standingHeight = 2f;
-    public float cameraCrouchOffset = -0.4f;
+    public float cameraCrouchOffset = -0.5f;
     public float crouchTransitionSpeed = 6f;
 
     [Header("First-Person Arms Settings")]
     public Transform armsTransform;
-    public Vector3 armsCrouchOffsetIdle = new Vector3(0, -0.4f, 0f);
-    public Vector3 armsCrouchOffsetWalk = new Vector3(0, -0.3f, 0.1f);
-    public Vector3 armsCrouchScale = new Vector3(0.9f, 0.9f, 0.9f);
 
-    [Header("Crouch Animation Delay (only on uncrouch)")]
-    public float crouchAnimDelay = 0.2f;
+    public Vector3 armsOffsetIdle = new Vector3(0f, 0f, 0f);
+    public Vector3 armsOffsetWalk = new Vector3(0f, -0.1f, 0.05f);
+    public Vector3 armsOffsetRun = new Vector3(0f, -0.15f, 0.1f);
+    public Vector3 armsOffsetCrouchIdle = new Vector3(0f, -0.4f, 0f);
+    public Vector3 armsOffsetCrouchWalk = new Vector3(0f, -0.3f, 0.1f);
+    public Vector3 armsScaleCrouch = new Vector3(0.9f, 0.9f, 0.9f);
 
-    private CharacterController controller;
-    private Vector3 moveDirection = Vector3.zero;
-    private float rotationX = 0f;
-    private Animator animator;
-
-    private bool isCrouching = false;
     private Vector3 originalCameraLocalPos;
     private Vector3 originalArmsLocalPos;
     private Vector3 originalArmsLocalScale;
 
-    private bool animatorIsCrouching = false;
-    private float crouchAnimTimer = 0f;
+    private CharacterController controller;
+    private Vector3 moveDirection = Vector3.zero;
+    private float rotationX = 0f;
+
+    private Animator animator;
+    private bool isCrouching = false;
+
+    // Layer blending
+    private float crouchLayerBlendSpeed = 8f; // how fast to blend
+    private float crouchLayerTargetWeight = 0f;
 
     void Start()
     {
@@ -72,58 +75,29 @@ public class PlayerMovement : MonoBehaviour
         float moveX = Input.GetAxis("Horizontal");
         bool isRunning = Input.GetKey(KeyCode.LeftShift);
         bool isJumping = Input.GetButton("Jump");
-        bool crouchHeld = Input.GetKey(KeyCode.LeftControl);
+        isCrouching = Input.GetKey(KeyCode.LeftControl); // Hold to crouch
 
         bool hasMovementInput = Mathf.Abs(moveX) > 0.1f || Mathf.Abs(moveZ) > 0.1f;
 
-        // Crouch state (instant logic)
-        if (crouchHeld && !isCrouching)
-        {
-            isCrouching = true;
-        }
-        else if (!crouchHeld && isCrouching)
-        {
-            isCrouching = false;
-        }
-
-        // Speed logic
+        // Determine speed
         float speed = isRunning ? runSpeed : walkSpeed;
         if (isCrouching) speed = crouchSpeed;
 
-        // Animator logic
+        // Animator states
         if (animator != null)
         {
             animator.SetBool("isWalking", hasMovementInput);
             animator.SetBool("isRunning", isRunning && hasMovementInput && !isCrouching);
+            animator.SetBool("isCrouching", isCrouching);
 
-            // Only delay uncrouch animation
-            if (isCrouching && !animatorIsCrouching)
-            {
-                animator.SetBool("isCrouching", true);
-                animatorIsCrouching = true;
-                crouchAnimTimer = 0f;
-            }
-            else if (!isCrouching && animatorIsCrouching)
-            {
-                if (crouchAnimTimer <= 0f)
-                {
-                    crouchAnimTimer = crouchAnimDelay;
-                }
-                else
-                {
-                    crouchAnimTimer -= Time.deltaTime;
-                    if (crouchAnimTimer <= 0f)
-                    {
-                        animator.SetBool("isCrouching", false);
-                        animatorIsCrouching = false;
-                    }
-                }
-            }
-
-            animator.SetLayerWeight(1, animatorIsCrouching ? 1f : 0f);
+            // Smooth crouch layer blending
+            crouchLayerTargetWeight = isCrouching ? 1f : 0f;
+            float currentWeight = animator.GetLayerWeight(1);
+            float newWeight = Mathf.Lerp(currentWeight, crouchLayerTargetWeight, Time.deltaTime * crouchLayerBlendSpeed);
+            animator.SetLayerWeight(1, newWeight);
         }
 
-        // Direction calculation
+        // Movement direction
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);
         Vector3 flatMovement = (forward * moveZ + right * moveX) * speed;
@@ -133,6 +107,7 @@ public class PlayerMovement : MonoBehaviour
         if (controller.isGrounded)
         {
             moveDirection = flatMovement;
+
             if (isJumping && !isCrouching)
                 moveDirection.y = jumpForce;
         }
@@ -142,34 +117,49 @@ public class PlayerMovement : MonoBehaviour
             moveDirection.y = y;
         }
 
-        // Gravity
+        // Apply gravity
         moveDirection.y -= gravity * Time.deltaTime;
 
-        // Apply movement
+        // Move character
         controller.Move(moveDirection * Time.deltaTime);
 
-        // Smooth crouch transition
+        // Smooth crouch height + center
         float currentHeight = controller.height;
         float targetHeight = isCrouching ? crouchHeight : standingHeight;
         controller.height = Mathf.Lerp(currentHeight, targetHeight, crouchTransitionSpeed * Time.deltaTime);
         float heightDiff = controller.height - currentHeight;
-        controller.center += new Vector3(0, heightDiff / 2f, 0);
+        controller.center += new Vector3(0f, heightDiff / 2f, 0f);
 
-        // Smooth camera crouch movement
-        Vector3 targetCameraPos = originalCameraLocalPos + new Vector3(0, isCrouching ? cameraCrouchOffset : 0f, 0);
-        playerCamera.transform.localPosition = Vector3.Lerp(playerCamera.transform.localPosition, targetCameraPos, crouchTransitionSpeed * Time.deltaTime);
-
-        // Arms crouch movement
+        // Smooth camera movement
+        // Sync camera transition with crouch layer blend
+        if (animator != null)
+        {
+            float crouchWeight = animator.GetLayerWeight(1); // Direct sync
+            Vector3 syncedCameraOffset = Vector3.Lerp(Vector3.zero, new Vector3(0, cameraCrouchOffset, 0), crouchWeight);
+            playerCamera.transform.localPosition = originalCameraLocalPos + syncedCameraOffset;
+        }
+        // Arms position and scale
         if (armsTransform != null)
         {
-            Vector3 offset = isCrouching
-                ? (hasMovementInput ? armsCrouchOffsetWalk : armsCrouchOffsetIdle)
-                : Vector3.zero;
+            Vector3 targetOffset = armsOffsetIdle;
 
-            Vector3 targetArmsPos = originalArmsLocalPos + offset;
+            if (isCrouching)
+            {
+                targetOffset = hasMovementInput ? armsOffsetCrouchWalk : armsOffsetCrouchIdle;
+            }
+            else if (isRunning && hasMovementInput)
+            {
+                targetOffset = armsOffsetRun;
+            }
+            else if (hasMovementInput)
+            {
+                targetOffset = armsOffsetWalk;
+            }
+
+            Vector3 targetArmsPos = originalArmsLocalPos + targetOffset;
             armsTransform.localPosition = Vector3.Lerp(armsTransform.localPosition, targetArmsPos, crouchTransitionSpeed * Time.deltaTime);
 
-            Vector3 targetScale = isCrouching ? armsCrouchScale : originalArmsLocalScale;
+            Vector3 targetScale = isCrouching ? armsScaleCrouch : originalArmsLocalScale;
             armsTransform.localScale = Vector3.Lerp(armsTransform.localScale, targetScale, crouchTransitionSpeed * Time.deltaTime);
         }
 

@@ -223,10 +223,12 @@ MonoBehaviour:
   cameraCrouchOffset: -0.5
   crouchTransitionSpeed: 6
   armsTransform: {fileID: 2276151825220800793}
-  armsCrouchOffsetIdle: {x: 0.1, y: 0, z: -0.15}
-  armsCrouchOffsetWalk: {x: 0, y: -0.1, z: -0.5}
-  armsCrouchScale: {x: 1.5, y: 1.5, z: 1.5}
-  crouchAnimDelay: 0.6
+  armsOffsetIdle: {x: 0.1, y: 0.1, z: 0.05}
+  armsOffsetWalk: {x: 0.1, y: 0.1, z: 0.04}
+  armsOffsetRun: {x: 0, y: -0.15, z: 0.1}
+  armsOffsetCrouchIdle: {x: 0.1, y: 0, z: -0.15}
+  armsOffsetCrouchWalk: {x: 0, y: -0.1, z: -0.5}
+  armsScaleCrouch: {x: 1.5, y: 1.5, z: 1.5}
 --- !u!1001 &1737331158969612018
 PrefabInstance:
   m_ObjectHideFlags: 0
