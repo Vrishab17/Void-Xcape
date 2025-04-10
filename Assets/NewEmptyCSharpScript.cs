@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
 
 public class EnemyAI : MonoBehaviour
 {
@@ -9,28 +10,78 @@ public class EnemyAI : MonoBehaviour
     public float wanderTimer = 5f;
     public float detectionRange = 10f;
     public Transform player;
+    public float attackRange = 3f; // The range at which the attack starts
+    public float safeDistanceFromPlayer = 2.5f; // Safe distance from the player for the attack
+    private bool hasJumpAttacked = false;
 
     private NavMeshAgent agent;
     private float timer;
 
     void Start()
     {
-        if(enemyBodyModel != null){
+        if (enemyBodyModel != null)
+        {
             animator = enemyBodyModel.GetComponent<Animator>();
         }
         agent = GetComponent<NavMeshAgent>();
-        animator = GetComponent<Animator>();
         timer = wanderTimer;
     }
 
     void Update()
     {
-        if (player == null || !agent.isOnNavMesh)
-            return;
+        if (!agent.isOnNavMesh || player == null) return;
 
+        float distance = Vector3.Distance(transform.position, player.position);
+
+        // If the player is within attack range, initiate attack
+        if (distance <= attackRange)
+        {
+            // Stop moving to allow the attack to start
+            agent.SetDestination(transform.position);
+
+            // Ensure the enemy is at a safe distance in front of the player, not inside them
+            if (!hasJumpAttacked)
+            {
+                Vector3 forwardDirection = player.forward; // Get the player's forward direction
+                Vector3 attackPosition = player.position + forwardDirection * safeDistanceFromPlayer; // Position in front of the player
+                attackPosition.y = transform.position.y; // Match the Y-axis to avoid height issues
+
+                // Move the enemy to the attack position (in front of the player)
+                agent.SetDestination(attackPosition);
+
+                // Trigger jump attack animation
+                animator.SetBool("IsAttacking", true);
+                animator.SetInteger("AttackStage", 1); // Trigger jump attack
+                hasJumpAttacked = true;
+
+                // Optionally start coroutine to switch to default attack after jump
+                StartCoroutine(SwitchToDefaultAttack());
+            }
+            else
+            {
+                // Trigger default attack animation once the jump attack is done
+                animator.SetBool("IsAttacking", true);
+                animator.SetInteger("AttackStage", 2); // Default attack
+            }
+        }
+        else
+        {
+            // Reset attack status
+            hasJumpAttacked = false;
+            animator.SetBool("IsAttacking", false);
+            animator.SetInteger("AttackStage", 0);
+
+            // Continue chasing the player if they are in detection range
+            agent.speed = 6f;
+            agent.SetDestination(player.position);
+        }
+
+        // Animation speed for movement
+        animator.SetFloat("Speed", agent.velocity.magnitude);
+
+        // If the player is in detection range, chase
         float distanceToPlayer = Vector3.Distance(transform.position, player.position);
 
-        // If player is in detection range, chase
         if (distanceToPlayer <= detectionRange)
         {
             agent.speed = 6f; // Run speed
@@ -50,10 +101,16 @@ public class EnemyAI : MonoBehaviour
                 timer = 0;
             }
         }
-
-        // Animation
     }
 
+    // Coroutine to switch to default attack animation after jump attack
+    IEnumerator SwitchToDefaultAttack()
+    {
+        yield return new WaitForSeconds(1.2f); // Adjust time to match jump attack duration
+        animator.SetInteger("AttackStage", 2); // Switch to default attack
+    }
+
+    // Helper method to generate random navigation points
     public static Vector3 RandomNavSphere(Vector3 origin, float dist, int layermask)
     {
         Vector3 randDirection = Random.insideUnitSphere * dist;
