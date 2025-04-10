@@ -528,16 +528,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1279959878}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 934cffc04228eca469416a60acb025b8, type: 3}
+  m_Script: {fileID: 11500000, guid: f28778627087ab940b5e8a8298e52648, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   enemyBodyModel: {fileID: 1279959878}
-  wanderRadius: 100
-  wanderTimer: 3
+  wanderRadius: 10
+  wanderTimer: 5
   detectionRange: 20
   player: {fileID: 1592037359}
   attackRange: 2
-  safeDistanceFromPlayer: 2
 --- !u!195 &1279959882
 NavMeshAgent:
   m_ObjectHideFlags: 0
