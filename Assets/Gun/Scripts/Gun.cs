@@ -50,33 +50,14 @@ public class Gun : MonoBehaviour {
             {
                 RaycastHit hit;
                 Vector3 shootingDir = GetShootingDirection();
-                if (Physics.Raycast(cam.position, shootingDir, out hit, range)) {
-                    if (hit.collider.GetComponent<Damageable>() != null) {
-                        hit.collider.GetComponent<Damageable>().TakeDamage(damage, hit.point, hit.normal);
-                    }
-                    CreateLaser(hit.point);
-                } 
-                else 
-                {
-                    CreateLaser(cam.position + shootingDir * range);
-                }
+                
             }
         } 
         else 
         {
             RaycastHit hit;
             Vector3 shootingDir = GetShootingDirection();
-            if (Physics.Raycast(cam.position, shootingDir, out hit, range)) 
-            {
-                if (hit.collider.GetComponent<Damageable>() != null) {
-                    hit.collider.GetComponent<Damageable>().TakeDamage(damage, hit.point, hit.normal);
-                }
-                CreateLaser(hit.point);
-            } 
-            else 
-            {
-                CreateLaser(cam.position + shootingDir * range);
-            }
+            
         }
     }
 

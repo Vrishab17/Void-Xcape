@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class InputManager : MonoBehaviour {
 
     [SerializeField] Movement movement;
-    [SerializeField] MouseLook mouseLook;
+    [SerializeField] GunLook mouseLook;
     [SerializeField] Gun gun;
 
     InputSystem_Actions controls;
