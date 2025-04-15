@@ -153,6 +153,7 @@ GameObject:
   - component: {fileID: 6225291922672770165}
   - component: {fileID: 2729323314865648820}
   - component: {fileID: 5261884896177251693}
+  - component: {fileID: 4173009604000012500}
   m_Layer: 0
   m_Name: FirstPerson
   m_TagString: Untagged
@@ -280,6 +281,31 @@ MonoBehaviour:
   maxHealth: 100
   currentHealth: 0
   healthSlider: {fileID: 8119905392943720503}
+--- !u!114 &4173009604000012500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8124529268615257780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b64bc6072a1324c9e8bcc6e3b7ce7bc9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponAnchor: {fileID: 0}
+  weaponModel: {fileID: 0}
+  player: {fileID: 3039595653323768508}
+  idleOffset: {x: 0, y: 0, z: 0}
+  walkOffset: {x: 0, y: -0.03, z: 0.02}
+  crouchIdleOffset: {x: 0, y: -0.08, z: -0.04}
+  crouchWalkOffset: {x: 0, y: -0.06, z: -0.02}
+  idleRotationOffset: {x: 0, y: 0, z: 0}
+  walkRotationOffset: {x: -5, y: 0, z: 0}
+  crouchIdleRotationOffset: {x: -30, y: 0, z: 0}
+  crouchWalkRotationOffset: {x: -12, y: 1, z: 0}
+  positionSmoothSpeed: 10
+  rotationSmoothSpeed: 10
 --- !u!1001 &1737331158969612018
 PrefabInstance:
   m_ObjectHideFlags: 0
