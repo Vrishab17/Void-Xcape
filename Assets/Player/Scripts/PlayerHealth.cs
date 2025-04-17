@@ -20,6 +20,10 @@ public class PlayerHealth : MonoBehaviour
     private Vector3 defaultPosition;
     private Quaternion defaultRotation;
 
+    public GameObject crosshair;
+    public GameObject healthBar;
+
+
     void Start()
     {
         currentHealth = maxHealth;
@@ -64,60 +68,90 @@ public class PlayerHealth : MonoBehaviour
             healthSlider.value = currentHealth / maxHealth;
     }
 
-    void Die()
+void Die()
+{
+    if (isDead) return;
+    isDead = true;
+
+    Debug.Log("Player Died");
+
+    MonoBehaviour[] components = GetComponents<MonoBehaviour>();
+    foreach (var comp in components)
     {
-        if (isDead) return;
-        isDead = true;
-
-        Debug.Log("Player Died");
-
-        MonoBehaviour[] components = GetComponents<MonoBehaviour>();
-        foreach (var comp in components)
-        {
-            if (comp != this)
-                comp.enabled = false;
-        }
-
-        if (deathScreen != null)
-            deathScreen.SetActive(true);
-
-        Invoke("Respawn", respawnDelay);
+        if (comp != this)
+            comp.enabled = false;
     }
 
-    void Respawn()
+    if (deathScreen != null)
+        deathScreen.SetActive(true);
+    
+    if (crosshair != null)
+    crosshair.SetActive(false);
+
+    if (healthBar != null)
+        healthBar.SetActive(false);
+
+
+    // ✅ Unlock and show cursor
+    Cursor.lockState = CursorLockMode.None;
+    Cursor.visible = true;
+}
+
+void Respawn()
+{
+    isDead = false;
+
+    currentHealth = maxHealth;
+    UpdateHealthUI();
+
+    if (deathScreen != null)
+        deathScreen.SetActive(false);
+
+    MonoBehaviour[] components = GetComponents<MonoBehaviour>();
+    foreach (var comp in components)
     {
-        isDead = false;
-
-        currentHealth = maxHealth;
-        UpdateHealthUI();
-
-        if (deathScreen != null)
-            deathScreen.SetActive(false);
-
-        MonoBehaviour[] components = GetComponents<MonoBehaviour>();
-        foreach (var comp in components)
-        {
-            comp.enabled = true;
-        }
-
-        // Move to respawn point
-        if (respawnPoint != null)
-        {
-            transform.position = respawnPoint.position;
-            transform.rotation = respawnPoint.rotation;
-        }
-        else
-        {
-            transform.position = defaultPosition;
-            transform.rotation = defaultRotation;
-        }
-
-        Debug.Log("Player Respawned");
+        comp.enabled = true;
     }
+
+    if (respawnPoint != null)
+    {
+        transform.position = respawnPoint.position;
+        transform.rotation = respawnPoint.rotation;
+    }
+    else
+    {
+        transform.position = defaultPosition;
+        transform.rotation = defaultRotation;
+    }
+
+    // ✅ Re-lock and hide cursor
+    Cursor.lockState = CursorLockMode.Locked;
+    Cursor.visible = false;
+
+    if (crosshair != null)
+    crosshair.SetActive(true);
+
+    if (healthBar != null)
+        healthBar.SetActive(true);
+
+
+    Debug.Log("Player Respawned");
+}
+
 
     void OnValidate()
     {
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
         UpdateHealthUI();
     }
+
+    public void OnRespawnButtonClicked()
+{
+    if (isDead)
+    {
+        CancelInvoke(nameof(Respawn));
+        Respawn();
+    }
+}
+
 }
