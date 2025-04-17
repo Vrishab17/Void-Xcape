@@ -2154,12 +2154,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   enemyBodyModel: {fileID: 7920117466516201699}
   player: {fileID: 0}
-  detectionRange: 20
+  detectionRange: 10
   attackRange: 2
-  giveUpRange: 20
+  giveUpRange: 10
   damageAmount: 5
-  wanderRadius: 10
-  wanderInterval: 2
+  wanderRadius: 20
+  wanderInterval: 8
 --- !u!195 &4809334124183213908
 NavMeshAgent:
   m_ObjectHideFlags: 0
