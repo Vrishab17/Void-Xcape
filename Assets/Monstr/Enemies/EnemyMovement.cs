@@ -1,6 +1,6 @@
 using UnityEngine;
 using UnityEngine.AI;
-
+// temp
 public class EnemyAI : MonoBehaviour
 {
     public GameObject enemyBodyModel;
