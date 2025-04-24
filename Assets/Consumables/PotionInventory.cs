@@ -3,7 +3,7 @@ using UnityEngine;
 public class PotionInventory : MonoBehaviour
 {
     private GameObject equippedPotion;
-    private int equippedHealAmount = 0;
+    private int equippedHealAmount = 25;
     private PlayerHealth playerHealth;
 
     void Start()
@@ -31,7 +31,7 @@ public class PotionInventory : MonoBehaviour
         if (playerHealth.currentHealth < playerHealth.maxHealth)
         {
             playerHealth.Heal(equippedHealAmount);
-            Destroy(equippedPotion); // Use up the potion
+            Destroy(equippedPotion); 
             equippedPotion = null;
             Debug.Log("Potion used!");
         }

@@ -2,13 +2,15 @@ using UnityEngine;
 
 public class HealthPotion : MonoBehaviour
 {
+    // amount of healing granted by potion
     public int healAmount = 25;
 
+    // When player collides with/interacts with the potion, it will be added to their inventory
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            Transform holdPoint = other.transform.Find("Camera/PotionHoldPoint"); // Adjust path if needed
+            Transform holdPoint = other.transform.Find("Main Camera/PotionHoldPoint"); 
 
             if (holdPoint != null)
             {

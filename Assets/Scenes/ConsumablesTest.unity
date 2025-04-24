@@ -276,8 +276,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2bddf0574122408bb218e39078d1909, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerCamera: {fileID: 0}
-  movement: {fileID: 0}
+  playerCamera: {fileID: 1464994161}
+  movement: {fileID: 234811189}
   lookSpeed: 2
   lookXLimit: 45
   bobFrequency: 1.5
@@ -553,7 +553,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1633328214186211038, guid: 159a122a2346fae4fb92f428464c2837, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.1
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 1633328214186211038, guid: 159a122a2346fae4fb92f428464c2837, type: 3}
       propertyPath: m_LocalScale.y
