@@ -630,6 +630,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4610293927711573042}
+  - component: {fileID: 3012923752885345580}
   m_Layer: 0
   m_Name: WeaponAnchor
   m_TagString: Untagged
@@ -653,6 +654,27 @@ Transform:
   - {fileID: 7234977244273542711}
   m_Father: {fileID: 8358813316484391153}
   m_LocalEulerAnglesHint: {x: -72.182, y: -68.032, z: -8.433}
+--- !u!114 &3012923752885345580
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7987954877436259892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e1034727c450a43d794649d13f7bc635, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  damage: 10
+  range: 100
+  fireRate: 10
+  hitMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  fpsCam: {fileID: 6237613860947711134}
+  muzzleFlash: {fileID: 0}
+  impactEffect: {fileID: 0}
 --- !u!1 &8124529268615257780
 GameObject:
   m_ObjectHideFlags: 0
