@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
@@ -21,7 +22,8 @@ public class GunShoot : MonoBehaviour
 
     [Header("References")]
     public Camera fpsCam;
-    public ParticleSystem muzzleFlash;
+    public Image muzzleFlashImage;
+    public Sprite[] flashes;
     public GameObject impactEffect;
 
     private float nextTimeToFire = 0f;
@@ -56,8 +58,8 @@ public class GunShoot : MonoBehaviour
 
     void Shoot()
     {
-        if (muzzleFlash != null)
-            muzzleFlash.Play();
+
+        StartCoroutine(MuzzleFlash());
 
         currentAmmo--;
         UpdateAmmoUI();
@@ -79,6 +81,16 @@ public class GunShoot : MonoBehaviour
                 Destroy(impact, 1f);
             }
         }
+    }
+
+    IEnumerator MuzzleFlash()
+    {
+        muzzleFlashImage.sprite = flashes[Random.Range(0, flashes.Length)];
+        muzzleFlashImage.color = Color.white;
+        yield return new WaitForSeconds(0.05f);
+        muzzleFlashImage.sprite = null;
+        muzzleFlashImage.color = new Color(0, 0, 0, 0);
+
     }
 
     System.Collections.IEnumerator Reload()
