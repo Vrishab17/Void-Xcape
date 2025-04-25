@@ -13,7 +13,7 @@ public class MainMenu : MonoBehaviour
     void Start()
     {
         // Find the Slider in the "Settings" panel under "MainMenu"
-        volumeSlider = GameObject.Find("MainMenu/Settings/Volume").GetComponent<Slider>();
+        volumeSlider = GameObject.Find("MainMenu/Settings/Slider").GetComponent<Slider>();
 
         // Set the min and max values for the volume slider
         volumeSlider.minValue = -80f;  // Example min value (dB)
