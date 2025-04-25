@@ -1,21 +1,56 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PotionInventory : MonoBehaviour
 {
     private GameObject equippedPotion;
-    private int equippedHealAmount = 25;
+    private int equippedHealAmount = 0;
     private PlayerHealth playerHealth;
 
+    private InputSystem_Actions inputActions;
+
+    // Awake Method
+    void Awake()
+    {
+        inputActions = new InputSystem_Actions();
+    }
+
+    // Enabling input actions
+    void OnEnable()
+    {
+        inputActions.Enable();
+        inputActions.Player.Interact.performed += OnInteract;
+    }
+
+    // Disabling input actions
+    void OnDisable()
+    {
+        inputActions.Player.Interact.performed -= OnInteract;
+        inputActions.Disable();
+    }
+
+    // Start Method
     void Start()
     {
         playerHealth = GetComponent<PlayerHealth>();
+        if (playerHealth == null)
+        {
+            Debug.LogError("PlayerHealth not found on the player!");
+        }
     }
 
-    void Update()
+    private void OnInteract(InputAction.CallbackContext context)
     {
-        if (Input.GetMouseButtonDown(2) && equippedPotion != null)
+        Debug.Log("E was pressed - Interact triggered!");
+
+        if (equippedPotion != null)
         {
+            Debug.Log("Trying to use potion...");
             UsePotion();
+        }
+        else
+        {
+            Debug.Log("No potion equipped.");
         }
     }
 
@@ -31,7 +66,7 @@ public class PotionInventory : MonoBehaviour
         if (playerHealth.currentHealth < playerHealth.maxHealth)
         {
             playerHealth.Heal(equippedHealAmount);
-            Destroy(equippedPotion); 
+            Destroy(equippedPotion);
             equippedPotion = null;
             Debug.Log("Potion used!");
         }
@@ -41,6 +76,3 @@ public class PotionInventory : MonoBehaviour
         }
     }
 }
-
-
-

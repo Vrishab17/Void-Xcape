@@ -10,11 +10,11 @@ public class HealthPotion : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Transform holdPoint = other.transform.Find("Main Camera/PotionHoldPoint"); 
+            Transform PotionHoldPoint = other.transform.Find("Main Camera/PotionHoldPoint"); 
 
-            if (holdPoint != null)
+            if (PotionHoldPoint != null)
             {
-                transform.SetParent(holdPoint);
+                transform.SetParent(PotionHoldPoint);
                 transform.localPosition = Vector3.zero;
                 transform.localRotation = Quaternion.identity;
 
