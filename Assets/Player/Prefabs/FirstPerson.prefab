@@ -812,8 +812,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f22df0a10f0cd4c7d927380250d844d6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponAnchor: {fileID: 0}
-  weaponModel: {fileID: 0}
+  weaponAnchor: {fileID: 4610293927711573042}
+  weaponModel: {fileID: 7234977244273542711}
   player: {fileID: 3039595653323768508}
   idleOffset: {x: 0, y: 0, z: 0}
   walkOffset: {x: 0, y: -0.03, z: 0.02}
