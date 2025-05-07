@@ -1,75 +1,49 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
-    // Reference to the pause menu GameObject
-    public GameObject pauseMenu;
+    
+    public static bool GameIsPaused = false;
 
-    // Flag to check if the game is paused
-    private bool isPaused;
-
-    void Start()
-    {
-        // Hide the pause menu when the game starts
-        if (pauseMenu != null)
-        {
-            pauseMenu.SetActive(false);
-        }
-        else
-        {
-            Debug.LogError("PauseMenu GameObject is not assigned in the Inspector!");
-        }
-        isPaused = false;
-    }
+    public GameObject PauseMenuBehavior;
 
     void Update()
     {
-        // Debug log to check if Update() is called
-        Debug.Log("Update is being called!");
-
-        // Check if Escape key is pressed and toggle pause
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.P))
         {
-            if (isPaused)
+            if (GameIsPaused)
             {
-                ResumeGame();
+                Resume();
             }
             else
             {
-                PauseGame();
+                Pause();
             }
         }
     }
-
-    public void PauseGame()
+    public void Resume()
     {
-        // Show the pause menu and stop time
-        if (pauseMenu != null)
-        {
-            pauseMenu.SetActive(true);
-            Time.timeScale = 0f; // Pause the game
-            isPaused = true;
-            Debug.Log("Game Paused");
-        }
-        else
-        {
-            Debug.LogError("PauseMenu GameObject is not assigned in the Inspector!");
-        }
+        PauseMenuBehavior.SetActive(false);
+        Time.timeScale = 1f;
+        GameIsPaused = false;
     }
-
-    public void ResumeGame()
+    public void MainMenu()
     {
-        // Hide the pause menu and resume time
-        if (pauseMenu != null)
-        {
-            pauseMenu.SetActive(false);
-            Time.timeScale = 1f; // Resume the game
-            isPaused = false;
-            Debug.Log("Game Resumed");
-        }
-        else
-        {
-            Debug.LogError("PauseMenu GameObject is not assigned in the Inspector!");
-        }
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Menu");
+    }
+    void Pause()
+    {
+        PauseMenuBehavior.SetActive(true);
+        Time.timeScale = 0f;
+        GameIsPaused = true;
+    }
+    public void QuitGame()
+    {
+        Application.Quit();
+        Debug.Log("Quitting game...");
     }
 }
