@@ -10,7 +10,7 @@ public class HealthPotion : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Transform PotionHoldPoint = other.transform.Find("Main Camera/PotionHoldPoint"); 
+            Transform PotionHoldPoint = other.transform.Find("Camera/PotionHoldPoint"); 
 
             if (PotionHoldPoint != null)
             {
