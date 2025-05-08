@@ -5,6 +5,15 @@ using System.Collections.Generic;
 public class SoundManager : MonoBehaviour
 {
     public static SoundManager instance;
+    [Serializefield] private AudioSource SoundObject;
+
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+    }
     //private Slider volumeSlider;  // Declare the Slider variable
 
     //void Start()
