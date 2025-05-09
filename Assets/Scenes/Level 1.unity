@@ -68453,6 +68453,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2099238165}
   - component: {fileID: 2099238166}
+  - component: {fileID: 2099238167}
   m_Layer: 0
   m_Name: PlayerAudioSource
   m_TagString: Untagged
@@ -68488,6 +68489,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   SFXObje: {fileID: 7446067251068030354, guid: d14b4221f40b68c4b85b48414d0eb3fa, type: 3}
+--- !u!114 &2099238167
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2099238164}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a1f1f92327871f4fbd4d036ca8a5170, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  NewAudioMixer: {fileID: 24100000, guid: 73b96a78d17ad494a9f8f77404b61120, type: 2}
 --- !u!1 &2100860447
 GameObject:
   m_ObjectHideFlags: 0
