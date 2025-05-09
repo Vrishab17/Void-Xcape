@@ -2,40 +2,34 @@ using UnityEngine;
 
 public class HealthPotion : MonoBehaviour
 {
-    // amount of healing granted by potion
     public int healAmount = 25;
 
-    // When player collides with/interacts with the potion, it will be added to their inventory
-    void OnTriggerEnter(Collider other)
+    public void Use()
     {
-        if (other.CompareTag("Player"))
+        PlayerHealth player = FindObjectOfType<PlayerHealth>();
+        if (player != null)
         {
-            Transform PotionHoldPoint = other.transform.Find("Camera/PotionHoldPoint"); 
+            player.Heal(healAmount);
+            Debug.Log("Used Health Potion. Healed " + healAmount + " HP.");
 
-            if (PotionHoldPoint != null)
+            Inventory inventory = FindObjectOfType<Inventory>();
+            if (inventory != null)
             {
-                transform.SetParent(PotionHoldPoint);
-                transform.localPosition = Vector3.zero;
-                transform.localRotation = Quaternion.identity;
+                inventory.UsePotion();
+            }
+        }
+    }
 
-                Collider col = GetComponent<Collider>();
-                if (col != null) col.enabled = false;
-
-                Rigidbody rb = GetComponent<Rigidbody>();
-                if (rb != null)
-                {
-                    rb.isKinematic = true;
-                    rb.useGravity = false;
-                }
-
-                PotionInventory inventory = other.GetComponent<PotionInventory>();
-                if (inventory != null)
-                {
-                    inventory.EquipPotion(gameObject, healAmount);
-                }
+    public void AddToInventory()
+    {
+        Inventory inventory = FindObjectOfType<Inventory>();
+        if (inventory != null)
+        {
+            InventoryItem item = GetComponent<InventoryItem>();
+            if (item != null)
+            {
+                inventory.Add(item, 1);
             }
         }
     }
 }
-
-

@@ -5,26 +5,70 @@ public class Inventory : MonoBehaviour
     public static Inventory Instance;
     public InventorySlot[] slots;
 
-    private void Awake()
+    void Awake()
     {
-        if (Instance == null)
-            Instance = this;
-        else
+        if (Instance != null && Instance != this)
+        {
             Destroy(gameObject);
+            return;
+        }
+        Instance = this;
     }
 
-    public bool Add(InventoryItem item)
+    public bool Add(InventoryItem item, int amount)
+    {
+        // Check for existing stackable item
+        foreach (InventorySlot slot in slots)
+        {
+            if (slot.HasItem() && slot.item == item && item.isStackable && slot.count < item.maxStack)
+            {
+                int spaceLeft = item.maxStack - slot.count;
+                int toAdd = Mathf.Min(spaceLeft, amount);
+                slot.AddItem(toAdd);
+                amount -= toAdd;
+                if (amount <= 0)
+                    return true;
+            }
+        }
+
+        // Add to empty slots
+        foreach (InventorySlot slot in slots)
+        {
+            if (!slot.HasItem())
+            {
+                int toAdd = Mathf.Min(item.maxStack, amount);
+                slot.SetItem(item, toAdd);
+                amount -= toAdd;
+                if (amount <= 0)
+                    return true;
+            }
+        }
+
+        Debug.Log("Inventory full!");
+        return false;
+    }
+
+    public void UsePotion()
     {
         foreach (var slot in slots)
         {
-            // Add to first empty slot
-            if (slot.GetComponent<InventorySlot>().icon.enabled == false)
+            if (slot.HasItem() && slot.item.itemName == "Potion")
             {
-                slot.GetComponent<InventorySlot>().AddItem(item);
-                return true;
+                slot.RemoveItem(1);
+                Debug.Log("Potion used.");
+
+                PlayerHealth playerHealth = FindObjectOfType<PlayerHealth>();
+                if (playerHealth != null)
+                {
+                    playerHealth.Heal(25f);
+                }
+                else
+                {
+                    Debug.LogWarning("PlayerHealth not found in scene!");
+                }
+                return;
             }
         }
-        Debug.Log("Inventory Full!");
-        return false;
+        Debug.Log("No potion in inventory.");
     }
 }
