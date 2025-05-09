@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
 [RequireComponent(typeof(CharacterController))]
 public class PlayerMovement : MonoBehaviour
@@ -36,6 +38,12 @@ public class PlayerMovement : MonoBehaviour
     public bool IsWalking { get; private set; }
     public float CrouchLayerWeight { get; set; }
 
+    //Audio stuff
+    [SerializeField] private AudioClip WALKClip;
+    [SerializeField] private float walkStepInterval = 0.5f; // Time between steps
+    private float walkStepTimer = 0f;
+    private AudioSource audioSource;
+    
     void Start()
     {
         controller = GetComponent<CharacterController>();
@@ -57,7 +65,6 @@ public class PlayerMovement : MonoBehaviour
         IsCrouching = Input.GetKey(KeyCode.LeftControl);
         IsWalking = Mathf.Abs(moveX) > 0.1f || Mathf.Abs(moveZ) > 0.1f;
         IsRunning = IsWalking && Input.GetKey(KeyCode.LeftShift);
-
 
         float speed = IsRunning ? runSpeed : walkSpeed;
         if (IsCrouching) speed = crouchSpeed;
@@ -106,6 +113,30 @@ public class PlayerMovement : MonoBehaviour
 
             Vector3 targetScale = IsCrouching ? armsScaleCrouch : originalArmsLocalScale;
             armsTransform.localScale = Vector3.Lerp(armsTransform.localScale, targetScale, transitionSpeed * Time.deltaTime);
+        }
+
+        //Walk Barry Walk
+        if (IsWalking && controller.isGrounded)
+        {
+            if (IsRunning)
+                walkStepInterval = 0.3f;
+            else if (IsCrouching)
+                walkStepInterval = 0.7f;
+            else
+                walkStepInterval = 0.5f;
+            
+            walkStepTimer -= Time.deltaTime;
+
+            if (walkStepTimer <= 0f && WALKClip != null)
+            {
+                SFXManager.instance.PlayClip(WALKClip, transform);
+                walkStepTimer = walkStepInterval;
+            }
+        }
+        else
+        {
+        // Reset timer when not walking to avoid clip spam
+            walkStepTimer = 0f;
         }
     }
 }
