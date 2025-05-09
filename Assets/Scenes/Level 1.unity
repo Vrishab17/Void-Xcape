@@ -52185,6 +52185,10 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3012923752885345580, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
+      propertyPath: FIREClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 8ada4eb1566aa72448037c83c902576d, type: 3}
     - target: {fileID: 3039595653323768508, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
