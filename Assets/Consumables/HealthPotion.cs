@@ -4,6 +4,20 @@ public class HealthPotion : MonoBehaviour
 {
     public int healAmount = 25;
 
+    public void AddToInventory()
+    {
+        Inventory inventory = FindObjectOfType<Inventory>();
+        if (inventory != null)
+        {
+            InventoryItem item = GetComponent<InventoryItem>();
+            if (item != null)
+            {
+                inventory.Add(item, 1);
+            }
+        }
+    }
+
+
     public void Use()
     {
         PlayerHealth player = FindObjectOfType<PlayerHealth>();
@@ -18,18 +32,5 @@ public class HealthPotion : MonoBehaviour
                 inventory.UsePotion();
             }
         }
-    }
-
-    public void AddToInventory()
-    {
-        Inventory inventory = FindObjectOfType<Inventory>();
-        if (inventory != null)
-        {
-            InventoryItem item = GetComponent<InventoryItem>();
-            if (item != null)
-            {
-                inventory.Add(item, 1);
-            }
-        }
-    }
+    }  
 }

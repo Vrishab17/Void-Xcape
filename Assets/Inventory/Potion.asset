@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24cc132a3a4e5274db2cd2ab45159bee, type: 3}
   m_Name: Potion
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: Potion
   icon: {fileID: 0}
-  isStackable: 0
+  isStackable: 1
   maxStack: 99
   healAmount: 25

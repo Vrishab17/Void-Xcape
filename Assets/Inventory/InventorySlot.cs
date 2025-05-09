@@ -71,22 +71,30 @@ public class InventorySlot : MonoBehaviour
         }
     }
 
-    public void OnSlotClicked()
-    {
-        if (!HasItem()) return;
 
-        if(item is Potion)
+    public void OnSlotClick()
+    {
+        if (!HasItem() || count <= 0)
         {
-            PotionInventory inventory = GameObject.FindObjectOfType<PotionInventory>();
-            if (inventory != null)
-            {
-                inventory.EquipPotion(this);
-                Debug.Log("Potion equipped.");
-            }
+            Debug.Log("No item in this slot.");
+            return;
+        }
+
+        PotionInventory inventory= GameObject.FindObjectOfType<PotionInventory>();
+        if (inventory == null)
+        {
+            Debug.LogWarning("PotionInventory not found in scene!");
+            return;
+        }
+
+        if (item.GetType() == typeof(Potion))
+        {
+            inventory.EquipPotion(this);
+            Debug.Log("Potion equipped.");
         }
         else
         {
-            Debug.Log("Cannot Equip");
+            Debug.Log("Item is not a potion.");
         }
     }
 }

@@ -5,6 +5,7 @@ public class Inventory : MonoBehaviour
     public static Inventory Instance;
     public InventorySlot[] slots;
 
+
     void Awake()
     {
         if (Instance != null && Instance != this)
@@ -17,7 +18,6 @@ public class Inventory : MonoBehaviour
 
     public bool Add(InventoryItem item, int amount)
     {
-        // Check for existing stackable item
         foreach (InventorySlot slot in slots)
         {
             if (slot.HasItem() && slot.item == item && item.isStackable && slot.count < item.maxStack)
@@ -31,7 +31,6 @@ public class Inventory : MonoBehaviour
             }
         }
 
-        // Add to empty slots
         foreach (InventorySlot slot in slots)
         {
             if (!slot.HasItem())
@@ -64,7 +63,7 @@ public class Inventory : MonoBehaviour
                 }
                 else
                 {
-                    Debug.LogWarning("PlayerHealth not found in scene!");
+                    Debug.LogWarning("PlayerHealth not found");
                 }
                 return;
             }

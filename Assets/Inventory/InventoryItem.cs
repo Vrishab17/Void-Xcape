@@ -4,12 +4,13 @@ using UnityEngine;
 public class InventoryItem : ScriptableObject
 {
     public string itemName;
+    public int maxStack = 99;
     public Sprite icon;
     public bool isStackable;
-    public int maxStack = 99;
+    
 
     public virtual void Use()
     {
-        Debug.Log("Used " + itemName);
+        Debug.Log("Item Used: " + itemName);
     }
 }

@@ -3,8 +3,8 @@ using UnityEngine.InputSystem;
 
 public class PotionInventory : MonoBehaviour
 {
-    private InventorySlot equippedSlot;
     private PlayerHealth playerHealth;
+    private InventorySlot equippedSlot;
     private InputSystem_Actions inputActions;
 
     void Awake()
@@ -16,12 +16,6 @@ public class PotionInventory : MonoBehaviour
     {
         inputActions.Enable();
         inputActions.Player.Interact.performed += OnInteract;
-    }
-
-    void OnDisable()
-    {
-        inputActions.Player.Interact.performed -= OnInteract;
-        inputActions.Disable();
     }
 
     void Start()
@@ -38,7 +32,13 @@ public class PotionInventory : MonoBehaviour
         Debug.Log("Potion equipped in slot.");
     }
 
-    
+
+    void OnDisable()
+    {
+        inputActions.Player.Interact.performed -= OnInteract;
+        inputActions.Disable();
+    }
+
     private void OnInteract(InputAction.CallbackContext context)
     {
         if (equippedSlot != null && equippedSlot.HasItem() && equippedSlot.item is Potion potion)
