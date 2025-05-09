@@ -28,6 +28,12 @@ public class GunShoot : MonoBehaviour
 
     private float nextTimeToFire = 0f;
 
+    //Audio stuff
+    [SerializeField] private AudioClip FIREClip;
+    [SerializeField] private float fireInterval = 0.1f; // Time between steps
+    private float fireTimer = 0f;
+    private AudioSource audioSource;
+
     void Start()
     {
         currentAmmo = maxAmmo;
@@ -60,6 +66,9 @@ public class GunShoot : MonoBehaviour
     {
 
         StartCoroutine(MuzzleFlash());
+        
+        //Fire Sound
+        SFXManager.instance.PlayClip(FIREClip, transform);
 
         currentAmmo--;
         UpdateAmmoUI();

@@ -1,25 +1,52 @@
+using System;
 using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.Audio;
 
-public class SoundManager : MonoBehaviour
+namespace SmallHedge.SoundManager
 {
-    public static SoundManager instance;
-    //private Slider volumeSlider;  // Declare the Slider variable
+    [RequireComponent(typeof(AudioSource))]
+    public class SoundManager : MonoBehaviour
+    {
+        [SerializeField] private SoundsSO SO;
+        private static SoundManager instance = null;
+        private AudioSource audioSource;
 
-    //void Start()
-    //{
-        // Find the Slider in the "Settings" panel under "MainMenu"
-        //volumeSlider = GameObject.Find("MainMenu/Settings/Slider").GetComponent<Slider>();
+        private void Awake()
+        {
+            if(!instance)
+            {
+                instance = this;
+                audioSource = GetComponent<AudioSource>();
+            }
+        }
 
-        // Set the min and max values for the volume slider
-        //volumeSlider.minValue = -80f;  // Example min value (dB)
-        //volumeSlider.maxValue = 0f;    // Example max value (dB)
+        public static void PlaySound(SoundType sound, AudioSource source = null, float volume = 1)
+        {
+            SoundList soundList = instance.SO.sounds[(int)sound];
+            AudioClip[] clips = soundList.sounds;
+            AudioClip randomClip = clips[UnityEngine.Random.Range(0, clips.Length)];
 
-        // Optionally, you can set an initial value for the slider
-        //volumeSlider.value = 0f;  // Set default volume to 0 dB (full volume)
+            if(source)
+            {
+                source.outputAudioMixerGroup = soundList.mixer;
+                source.clip = randomClip;
+                source.volume = volume * soundList.volume;
+                source.Play();
+            }
+            else
+            {
+                instance.audioSource.outputAudioMixerGroup = soundList.mixer;
+                instance.audioSource.PlayOneShot(randomClip, volume * soundList.volume);
+            }
+        }
+    }
 
-        // Add a listener to update the volume when the slider value changes
-        //volumeSlider.onValueChanged.AddListener(SetVolume);
-    //}
+    [Serializable]
+    public struct SoundList
+    {
+        [HideInInspector] public string name;
+        [Range(0, 1)] public float volume;
+        public AudioMixerGroup mixer;
+        public AudioClip[] sounds;
+    }
 }

@@ -951,6 +951,7 @@ MonoBehaviour:
   armsOffsetCrouchIdle: {x: 0.1, y: 0, z: -0.15}
   armsOffsetCrouchWalk: {x: 0, y: -0.1, z: -0.5}
   armsScaleCrouch: {x: 1.5, y: 1.5, z: 1.5}
+  WALKClip: {fileID: 8300000, guid: 397699df0c425bc41bff011656426b99, type: 3}
 --- !u!114 &6225291922672770165
 MonoBehaviour:
   m_ObjectHideFlags: 0
