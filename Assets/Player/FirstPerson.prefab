@@ -62,6 +62,8 @@ MonoBehaviour:
   flashes:
   - {fileID: 21300000, guid: 2cf1d6c925aa84382bdc8dacbb4b8c3a, type: 3}
   impactEffect: {fileID: 0}
+  FIREClip: {fileID: 0}
+  fireInterval: 0.1
 --- !u!1 &3109539313922038297
 GameObject:
   m_ObjectHideFlags: 0
@@ -394,6 +396,8 @@ MonoBehaviour:
   armsOffsetCrouchIdle: {x: 0.1, y: 0, z: -0.15}
   armsOffsetCrouchWalk: {x: 0, y: -0.1, z: -0.5}
   armsScaleCrouch: {x: 1.5, y: 1.5, z: 1.5}
+  WALKClip: {fileID: 0}
+  walkStepInterval: 0.5
 --- !u!114 &5178789522121973767
 MonoBehaviour:
   m_ObjectHideFlags: 0
