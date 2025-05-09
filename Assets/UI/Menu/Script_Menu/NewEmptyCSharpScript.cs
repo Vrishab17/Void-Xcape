@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Audio;
@@ -8,48 +7,55 @@ using UnityEngine.UI;
 public class MainMenu : MonoBehaviour
 {
     public AudioMixer NewAudioMixer;
-    private Slider volumeSlider;  // Declare the Slider variable
+    private Slider volumeSlider;
 
     void Start()
     {
         // Find the Slider in the "Settings" panel under "MainMenu"
         volumeSlider = GameObject.Find("MainMenu/Settings/Slider").GetComponent<Slider>();
 
-        // Set the min and max values for the volume slider
-        volumeSlider.minValue = -80f;  // Example min value (dB)
-        volumeSlider.maxValue = 0f;    // Example max value (dB)
+        // Set min and max values for volume in decibels
+        volumeSlider.minValue = -80f;
+        volumeSlider.maxValue = 0f;
 
-        // Optionally, you can set an initial value for the slider
-        volumeSlider.value = 0f;  // Set default volume to 0 dB (full volume)
+        // Load saved volume (default to 0 dB) and apply to slider + mixer
+        float savedVolume = PlayerPrefs.GetFloat("volume", 0f);
+        volumeSlider.value = savedVolume;
+        NewAudioMixer.SetFloat("Volume", savedVolume);
 
-        // Add a listener to update the volume when the slider value changes
+        // Update volume live on slider change
         volumeSlider.onValueChanged.AddListener(SetVolume);
     }
 
-    // Load Scene
+    // Called when the "Play" button is pressed
     public void Play()
     {
+        // Reapply saved volume to AudioMixer before scene load
+        float savedVolume = PlayerPrefs.GetFloat("volume", 0f);
+        NewAudioMixer.SetFloat("Volume", savedVolume);
+
+        // Load the next scene in the build index
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
-        Debug.Log("The Player Test 1");
+        Debug.Log("Loading next scene with saved volume: " + savedVolume + " dB");
     }
 
-    // Quit Game
+    // Called when the "Quit" button is pressed
     public void Quit()
     {
         Application.Quit();
         Debug.Log("The Player has Quit the game");
     }
 
-    // Quality
+    // Set the current quality level
     public void SetQuality(int qualityIndex)
     {
         QualitySettings.SetQualityLevel(qualityIndex);
     }
 
-    // Volume
+    // Called when volume slider is changed
     public void SetVolume(float volume)
     {
-        // Adjust the volume in the AudioMixer
         NewAudioMixer.SetFloat("Volume", volume);
+        PlayerPrefs.SetFloat("volume", volume);
     }
 }
