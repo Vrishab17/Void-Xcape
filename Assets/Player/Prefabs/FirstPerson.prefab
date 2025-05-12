@@ -759,6 +759,8 @@ MonoBehaviour:
   respawnPoint: {fileID: 0}
   crosshair: {fileID: 6308305029180922779}
   healthBar: {fileID: 8673239086973087938}
+  miniMap: {fileID: 0}
+  ammoCount: {fileID: 8051259921131361980}
 --- !u!114 &3310491151618564356
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1171,7 +1173,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6336220240775208483, guid: c3001cf5ab21f4a959c4be2fdcd10559, type: 3}
   m_PrefabInstance: {fileID: 7766430343917695211}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 8051259921131361980}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f4688fdb7df04437aeb418b961361dc5, type: 3}
@@ -1190,6 +1192,11 @@ GameObject:
 --- !u!1 &6308305029180922779 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4344985452477213552, guid: c3001cf5ab21f4a959c4be2fdcd10559, type: 3}
+  m_PrefabInstance: {fileID: 7766430343917695211}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &8051259921131361980 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 323191557972338263, guid: c3001cf5ab21f4a959c4be2fdcd10559, type: 3}
   m_PrefabInstance: {fileID: 7766430343917695211}
   m_PrefabAsset: {fileID: 0}
 --- !u!114 &8119905392943720503 stripped

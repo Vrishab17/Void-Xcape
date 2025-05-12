@@ -60,6 +60,9 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+        if (InventoryInput.BlockNextInput || InventoryInput.InventoryOpen)
+            return;
+
         float moveZ = Input.GetAxis("Vertical");
         float moveX = Input.GetAxis("Horizontal");
         IsCrouching = Input.GetKey(KeyCode.LeftControl);

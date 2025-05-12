@@ -42,7 +42,8 @@ public class GunShoot : MonoBehaviour
 
     void Update()
     {
-        if (isReloading) return;
+        if (InventoryInput.BlockNextInput || InventoryInput.InventoryOpen || isReloading)
+            return;
 
         if (currentAmmo <= 0)
         {
