@@ -605,7 +605,7 @@ MonoBehaviour:
   flashes:
   - {fileID: 21300000, guid: 2cf1d6c925aa84382bdc8dacbb4b8c3a, type: 3}
   impactEffect: {fileID: 0}
-  FIREClip: {fileID: 0}
+  FIREClip: {fileID: 8300000, guid: 8ada4eb1566aa72448037c83c902576d, type: 3}
   fireInterval: 0.1
 --- !u!1 &8124529268615257780
 GameObject:
