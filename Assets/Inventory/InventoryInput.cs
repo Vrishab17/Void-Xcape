@@ -3,9 +3,14 @@ using UnityEngine.InputSystem;
 
 public class InventoryInput : MonoBehaviour
 {
+    [Header("Inventory UI")]
     public GameObject inventoryUI;
+
     private InputSystem_Actions inputActions;
     private bool isOpen = false;
+
+    public static bool InventoryOpen { get; private set; }
+    public static bool BlockNextInput { get; private set; }
 
     private void Awake()
     {
@@ -28,18 +33,17 @@ public class InventoryInput : MonoBehaviour
     {
         isOpen = !isOpen;
         inventoryUI.SetActive(isOpen);
-        
-        if (isOpen)
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-        }
-        else
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-        }
+        InventoryOpen = isOpen;
 
-        Debug.Log("Inventory is" + (isOpen ? "open" : "closed"));
+        Cursor.lockState = isOpen ? CursorLockMode.None : CursorLockMode.Locked;
+        Cursor.visible = isOpen;
+        Time.timeScale = isOpen ? 0f : 1f;
+
+        BlockNextInput = true; // block input for one frame
+    }
+
+    private void LateUpdate()
+    {
+        BlockNextInput = false; // clear at end of frame
     }
 }

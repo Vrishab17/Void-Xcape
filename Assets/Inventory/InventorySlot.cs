@@ -67,7 +67,7 @@ public class InventorySlot : MonoBehaviour
     {
         if (countText != null)
         {
-            countText.text = count > 1 ? count.ToString() : "";
+            countText.text = count >= 1 ? count.ToString() : "";
         }
     }
 
