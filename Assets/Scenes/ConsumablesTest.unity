@@ -172,6 +172,8 @@ MonoBehaviour:
   respawnPoint: {fileID: 0}
   crosshair: {fileID: 0}
   healthBar: {fileID: 0}
+  miniMap: {fileID: 0}
+  ammoCount: {fileID: 0}
 --- !u!143 &234811185
 CharacterController:
   m_ObjectHideFlags: 0
@@ -394,6 +396,10 @@ PrefabInstance:
     - target: {fileID: 3567156954796823940, guid: c3001cf5ab21f4a959c4be2fdcd10559, type: 3}
       propertyPath: m_Name
       value: Hud
+      objectReference: {fileID: 0}
+    - target: {fileID: 6605077393965949549, guid: c3001cf5ab21f4a959c4be2fdcd10559, type: 3}
+      propertyPath: m_AdditionalShaderChannelsFlag
+      value: 25
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
