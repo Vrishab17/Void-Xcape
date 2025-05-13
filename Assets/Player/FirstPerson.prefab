@@ -454,6 +454,8 @@ MonoBehaviour:
   respawnPoint: {fileID: 0}
   crosshair: {fileID: 8495670917376598295}
   healthBar: {fileID: 6498902416122612302}
+  miniMap: {fileID: 0}
+  ammoCount: {fileID: 0}
 --- !u!114 &1227577254551698984
 MonoBehaviour:
   m_ObjectHideFlags: 0
