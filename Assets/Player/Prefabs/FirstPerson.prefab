@@ -605,7 +605,7 @@ MonoBehaviour:
   flashes:
   - {fileID: 21300000, guid: 2cf1d6c925aa84382bdc8dacbb4b8c3a, type: 3}
   impactEffect: {fileID: 0}
-  FIREClip: {fileID: 8300000, guid: 8ada4eb1566aa72448037c83c902576d, type: 3}
+  FIREClip: {fileID: 8300000, guid: 7e950513b9c6d734e8130770598861f3, type: 3}
   fireInterval: 0.1
 --- !u!1 &8124529268615257780
 GameObject:
@@ -701,7 +701,7 @@ MonoBehaviour:
   armsOffsetCrouchIdle: {x: 0.1, y: 0, z: -0.15}
   armsOffsetCrouchWalk: {x: 0, y: -0.1, z: -0.5}
   armsScaleCrouch: {x: 1.5, y: 1.5, z: 1.5}
-  WALKClip: {fileID: 8300000, guid: 397699df0c425bc41bff011656426b99, type: 3}
+  WALKClip: {fileID: 8300000, guid: 4290a2df9f7c8ee4fbe7fee539c5bf30, type: 3}
   walkStepInterval: 0.5
 --- !u!114 &6225291922672770165
 MonoBehaviour:
