@@ -42,7 +42,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private AudioClip WALKClip;
     [SerializeField] private float walkStepInterval = 0.5f; // Time between steps
     private float walkStepTimer = 0f;
-    private AudioSource audioSource;
+    [SerializeField] private AudioSource walkAudioSource;
     
     void Start()
     {
@@ -132,7 +132,9 @@ public class PlayerMovement : MonoBehaviour
 
             if (walkStepTimer <= 0f && WALKClip != null)
             {
-                SFXManager.instance.PlayClip(WALKClip, transform);
+                if (walkAudioSource && WALKClip)
+                    walkAudioSource.PlayOneShot(WALKClip);
+                    
                 walkStepTimer = walkStepInterval;
             }
         }

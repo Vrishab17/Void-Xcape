@@ -32,7 +32,7 @@ public class GunShoot : MonoBehaviour
     [SerializeField] private AudioClip FIREClip;
     [SerializeField] private float fireInterval = 0.1f; // Time between steps
     private float fireTimer = 0f;
-    private AudioSource audioSource;
+    [SerializeField] private AudioSource gunAudioSource;
 
     void Start()
     {
@@ -69,7 +69,8 @@ public class GunShoot : MonoBehaviour
         StartCoroutine(MuzzleFlash());
         
         //Fire Sound
-        SFXManager.instance.PlayClip(FIREClip, transform);
+        if (gunAudioSource && FIREClip)
+            gunAudioSource.PlayOneShot(FIREClip);
 
         currentAmmo--;
         UpdateAmmoUI();
