@@ -16,11 +16,14 @@ public class MultiTypewriter : MonoBehaviour
     public float typingSpeed = 0.05f;
     public float waitBetweenBlocks = 1f;
     public GameObject continueButton;
+    public AudioClip beepSound;
+    private AudioSource audioSource;
 
     private bool skipRequested = false;
 
     void Start()
     {
+        audioSource = GetComponent<AudioSource>();
         StartCoroutine(TypeAllBlocks());
     }
 
@@ -46,19 +49,25 @@ public class MultiTypewriter : MonoBehaviour
 
 
     IEnumerator TypeText(TypingBlock block)
+{
+    block.textUI.text = "";
+
+    for (int i = 0; i < block.fullText.Length; i++)
     {
-        block.textUI.text = "";
-
-        for (int i = 0; i < block.fullText.Length; i++)
+        if (skipRequested)
         {
-            if (skipRequested)
-            {
-                block.textUI.text = block.fullText;
-                yield break;
-            }
-
-            block.textUI.text += block.fullText[i];
-            yield return new WaitForSeconds(typingSpeed);
+            block.textUI.text = block.fullText;
+            yield break;
         }
+
+        block.textUI.text += block.fullText[i];
+
+        if (beepSound && audioSource && !char.IsWhiteSpace(block.fullText[i]))
+        {
+            audioSource.PlayOneShot(beepSound);
+        }
+
+        yield return new WaitForSeconds(typingSpeed);
     }
+}
 }
