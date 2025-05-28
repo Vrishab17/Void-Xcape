@@ -29,6 +29,9 @@ public class PlayerCameraController : MonoBehaviour
 
     void Update()
     {
+        if (InventoryInput.BlockNextInput || InventoryInput.InventoryOpen)
+            return;
+
         float transitionSpeed = movement.CrouchLayerWeight >= 0.5f ? movement.transitionDownSpeed : movement.transitionUpSpeed;
 
         Vector3 targetCameraOffset = Vector3.Lerp(Vector3.zero, new Vector3(0, cameraCrouchOffset, 0), movement.CrouchLayerWeight);

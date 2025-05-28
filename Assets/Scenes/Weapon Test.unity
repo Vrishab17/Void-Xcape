@@ -1013,17 +1013,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4805947697738950680, guid: e3d3ad26ebe194af49b245eb702ee18c, type: 3}
   m_PrefabInstance: {fileID: 6515434768981329372}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1719791083907214710 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 7568876205505086171, guid: e3d3ad26ebe194af49b245eb702ee18c, type: 3}
-  m_PrefabInstance: {fileID: 6515434768981329372}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6aeeb605d58e13459333f3018fd4b87, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!95 &3704242056445694638
 Animator:
   serializedVersion: 7
@@ -1190,7 +1179,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   movement: {fileID: 7981470347756016239}
   mouseLook: {fileID: 7981470347756016240}
-  gun: {fileID: 1719791083907214710}
+  gun: {fileID: 0}
 --- !u!143 &7981470347756016242
 CharacterController:
   m_ObjectHideFlags: 0

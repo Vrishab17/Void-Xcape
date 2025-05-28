@@ -1402,6 +1402,7 @@ GameObject:
   - component: {fileID: 4304937789842257443}
   - component: {fileID: 397164864409279071}
   - component: {fileID: 5667008382033704704}
+  - component: {fileID: 8091860277818071579}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -1526,6 +1527,25 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+--- !u!114 &8091860277818071579
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5503603694087002197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dbf9db670c1df4bb2843b82560ce5409, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  icon: {fileID: 21300000, guid: 5b47ca1209db34047b14f65d2db913e4, type: 3}
+  size: {x: 20, y: 20}
+  rotateWithObject: 1
+  upAxis: {x: 0, y: 1, z: 0}
+  initialIconRotation: 0
+  clampIconInBorder: 1
+  clampDistance: 20
 --- !u!1 &5538031513179650393
 GameObject:
   m_ObjectHideFlags: 0

@@ -22,6 +22,8 @@ public class PlayerHealth : MonoBehaviour
 
     public GameObject crosshair;
     public GameObject healthBar;
+    public GameObject miniMap;
+    public GameObject ammoCount;
 
 
     void Start()
@@ -90,6 +92,12 @@ void Die()
 
     if (healthBar != null)
         healthBar.SetActive(false);
+    
+    if (miniMap != null)
+        miniMap.SetActive(false);
+    
+    if (ammoCount != null)
+        ammoCount.SetActive(false);
 
 
     // ✅ Unlock and show cursor
@@ -133,6 +141,12 @@ void Respawn()
 
     if (healthBar != null)
         healthBar.SetActive(true);
+
+    if (miniMap != null)
+        miniMap.SetActive(true);
+    
+    if (ammoCount != null)
+        ammoCount.SetActive(true);
 
 
     Debug.Log("Player Respawned");
