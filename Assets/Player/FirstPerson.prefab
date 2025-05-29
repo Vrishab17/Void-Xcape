@@ -48,7 +48,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   damage: 10
   range: 100
-  fireRate: 10
   hitMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -63,6 +62,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 2cf1d6c925aa84382bdc8dacbb4b8c3a, type: 3}
   impactEffect: {fileID: 0}
   FIREClip: {fileID: 0}
+  gunAudioSource: {fileID: 0}
   fireInterval: 0.1
 --- !u!1 &3109539313922038297
 GameObject:
@@ -398,6 +398,7 @@ MonoBehaviour:
   armsScaleCrouch: {x: 1.5, y: 1.5, z: 1.5}
   WALKClip: {fileID: 0}
   walkStepInterval: 0.5
+  walkAudioSource: {fileID: 0}
 --- !u!114 &5178789522121973767
 MonoBehaviour:
   m_ObjectHideFlags: 0
