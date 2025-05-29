@@ -38,6 +38,7 @@ Transform:
   - {fileID: 9052582931228441083}
   - {fileID: 3993065360657988107}
   - {fileID: 8441376917830310104}
+  - {fileID: 5841837201747229848}
   m_Father: {fileID: 3039595653323768508}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &6237613860947711134
@@ -143,6 +144,37 @@ MonoBehaviour:
     m_MipBias: 0
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
+--- !u!1 &1694863664951886435
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5841837201747229848}
+  m_Layer: 0
+  m_Name: Object Hold Point
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5841837201747229848
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1694863664951886435}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.1, z: 2.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1171835916437975401}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3139963112549909751
 GameObject:
   m_ObjectHideFlags: 0
@@ -769,6 +801,7 @@ GameObject:
   - component: {fileID: 1954794413096925683}
   - component: {fileID: 2060069893988580751}
   - component: {fileID: 2878736973547664425}
+  - component: {fileID: 8077806033382509104}
   m_Layer: 0
   m_Name: FirstPerson
   m_TagString: Player
@@ -975,6 +1008,25 @@ MonoBehaviour:
   initialIconRotation: 0
   clampIconInBorder: 1
   clampDistance: 100
+--- !u!114 &8077806033382509104
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8124529268615257780}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ce870f53032949e496e97cbde92b390, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerCamera: {fileID: 6237613860947711134}
+  holdPoint: {fileID: 5841837201747229848}
+  pickupRange: 3
+  pickupKey: 101
+  moveForce: 500
+  highlightMaterial: {fileID: 2100002, guid: 8e0f9c1e33e964718848c39708aa5720, type: 3}
+  pickupPromptUI: {fileID: 4047616191768448694}
 --- !u!1001 &1737331158969612018
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1313,6 +1365,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 778315b211a59e8448f626fb41768a99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &4047616191768448694 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6047175710378638941, guid: c3001cf5ab21f4a959c4be2fdcd10559, type: 3}
+  m_PrefabInstance: {fileID: 7766430343917695211}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &4335032963382947528 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6336220240775208483, guid: c3001cf5ab21f4a959c4be2fdcd10559, type: 3}
