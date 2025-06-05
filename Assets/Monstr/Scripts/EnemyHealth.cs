@@ -34,29 +34,39 @@ public class EnemyHealth : MonoBehaviour
     }
 
     void Die()
+{
+    if (isDead) return; // Prevent multiple deaths
+
+    isDead = true;
+
+    // Stop NavMeshAgent if possible
+    UnityEngine.AI.NavMeshAgent agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+    if (agent != null && agent.isOnNavMesh)
     {
-
-        if (CoinManager.Instance != null)
-        {
-            CoinManager.Instance.AddCoins(coinValue);
-        }
-        Destroy(gameObject);
-
-        isDead = true;
-
-        if (animator != null)
-        {
-            animator.SetTrigger("Die");
-        }
-
-        UnityEngine.AI.NavMeshAgent agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        if (agent != null) agent.isStopped = true;
-
-        Collider collider = GetComponent<Collider>();
-        if (collider != null) collider.enabled = false;
-
-        
-        Destroy(gameObject, 3f);
-
+        agent.isStopped = true;
     }
+
+    // Disable collider
+    Collider collider = GetComponent<Collider>();
+    if (collider != null)
+    {
+        collider.enabled = false;
+    }
+
+    // Trigger death animation
+    if (animator != null)
+    {
+        animator.SetTrigger("Die");
+    }
+
+    // Add coins
+    if (CoinManager.Instance != null)
+    {
+        CoinManager.Instance.AddCoins(coinValue);
+    }
+
+    // Delay destroy to let death animation play
+    Destroy(gameObject, 3f);
+}
+
 }
