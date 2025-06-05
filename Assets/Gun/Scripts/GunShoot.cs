@@ -8,7 +8,6 @@ public class GunShoot : MonoBehaviour
     [Header("Shooting")]
     public float damage = 25f;
     public float range = 100f;
-    public float fireRate = 10f;
     public LayerMask hitMask;
 
     [Header("Ammo")]
@@ -26,13 +25,12 @@ public class GunShoot : MonoBehaviour
     public Sprite[] flashes;
     public GameObject impactEffect;
 
-    private float nextTimeToFire = 0f;
-
-    //Audio stuff
+    [Header("Audio")]
     [SerializeField] private AudioClip FIREClip;
-    [SerializeField] private float fireInterval = 0.1f; // Time between steps
-    private float fireTimer = 0f;
-    private AudioSource audioSource;
+    [SerializeField] private AudioSource gunAudioSource;
+    [SerializeField] private float fireInterval = 0.1f; // Time between shots
+
+    private float nextTimeToFire = 0f;
 
     void Start()
     {
@@ -42,7 +40,8 @@ public class GunShoot : MonoBehaviour
 
     void Update()
     {
-        if (isReloading) return;
+        if (InventoryInput.BlockNextInput || InventoryInput.InventoryOpen || isReloading)
+            return;
 
         if (currentAmmo <= 0)
         {
@@ -52,7 +51,7 @@ public class GunShoot : MonoBehaviour
 
         if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
         {
-            nextTimeToFire = Time.time + 1f / fireRate;
+            nextTimeToFire = Time.time + fireInterval;
             Shoot();
         }
 
@@ -64,11 +63,11 @@ public class GunShoot : MonoBehaviour
 
     void Shoot()
     {
-
         StartCoroutine(MuzzleFlash());
-        
-        //Fire Sound
-        SFXManager.instance.PlayClip(FIREClip, transform);
+
+        // Fire sound
+        if (gunAudioSource && FIREClip)
+            gunAudioSource.PlayOneShot(FIREClip);
 
         currentAmmo--;
         UpdateAmmoUI();
@@ -99,10 +98,9 @@ public class GunShoot : MonoBehaviour
         yield return new WaitForSeconds(0.05f);
         muzzleFlashImage.sprite = null;
         muzzleFlashImage.color = new Color(0, 0, 0, 0);
-
     }
 
-    System.Collections.IEnumerator Reload()
+    IEnumerator Reload()
     {
         isReloading = true;
         Debug.Log("Reloading...");

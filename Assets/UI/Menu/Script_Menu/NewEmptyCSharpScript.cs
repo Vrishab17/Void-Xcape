@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
-    public AudioMixer NewAudioMixer;
+    public AudioMixer MainAudioMixer;
     private Slider volumeSlider;
 
     void Start()
@@ -21,7 +21,7 @@ public class MainMenu : MonoBehaviour
         // Load saved volume (default to 0 dB) and apply to slider + mixer
         float savedVolume = PlayerPrefs.GetFloat("volume", 0f);
         volumeSlider.value = savedVolume;
-        NewAudioMixer.SetFloat("Volume", savedVolume);
+        MainAudioMixer.SetFloat("Volume", savedVolume);
 
         // Update volume live on slider change
         volumeSlider.onValueChanged.AddListener(SetVolume);
@@ -32,7 +32,7 @@ public class MainMenu : MonoBehaviour
     {
         // Reapply saved volume to AudioMixer before scene load
         float savedVolume = PlayerPrefs.GetFloat("volume", 0f);
-        NewAudioMixer.SetFloat("Volume", savedVolume);
+        MainAudioMixer.SetFloat("Volume", savedVolume);
 
         // Load the next scene in the build index
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
@@ -55,7 +55,7 @@ public class MainMenu : MonoBehaviour
     // Called when volume slider is changed
     public void SetVolume(float volume)
     {
-        NewAudioMixer.SetFloat("Volume", volume);
+        MainAudioMixer.SetFloat("Volume", volume);
         PlayerPrefs.SetFloat("volume", volume);
     }
 }
