@@ -5,8 +5,10 @@ public class EnemyHealth : MonoBehaviour
     public float maxHealth = 100f;
     private float currentHealth;
 
+    public int coinValue = 5;
     private Animator animator;
     private bool isDead = false;
+
 
     void Start()
     {
@@ -33,6 +35,13 @@ public class EnemyHealth : MonoBehaviour
 
     void Die()
     {
+
+        if (CoinManager.Instance != null)
+        {
+            CoinManager.Instance.AddCoins(coinValue);
+        }
+        Destroy(gameObject);
+
         isDead = true;
 
         if (animator != null)
@@ -48,5 +57,6 @@ public class EnemyHealth : MonoBehaviour
 
         
         Destroy(gameObject, 3f);
+
     }
 }

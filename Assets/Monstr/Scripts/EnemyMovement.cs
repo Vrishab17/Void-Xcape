@@ -6,7 +6,7 @@ public class EnemyAI : MonoBehaviour
     [Header("References")]
     public GameObject enemyBodyModel;
     public Transform player;
-
+    public int coinValue = 5;
     private PlayerHealth playerHealth;
     private Animator animator;
     private NavMeshAgent agent;
@@ -119,5 +119,21 @@ public class EnemyAI : MonoBehaviour
     public void DealDamage2()
     {
         DealDamageToPlayer();
+    }
+
+     public void Die()
+    {
+        if (CoinManager.Instance != null)
+        CoinManager.Instance.AddCoins(coinValue);
+        Destroy(gameObject); 
+    }
+
+    
+    public int health = 100;
+    public void TakeDamage(int amount)
+    {
+        health -= amount;
+        if (health <= 0)
+            Die();
     }
 }
