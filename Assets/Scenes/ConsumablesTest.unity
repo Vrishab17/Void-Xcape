@@ -273,6 +273,7 @@ MonoBehaviour:
   armsScaleCrouch: {x: 0.9, y: 0.9, z: 0.9}
   WALKClip: {fileID: 0}
   walkStepInterval: 0.5
+  walkAudioSource: {fileID: 0}
 --- !u!114 &234811190
 MonoBehaviour:
   m_ObjectHideFlags: 0
