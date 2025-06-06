@@ -4116,10 +4116,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4269167948587993856, guid: e7760bb20542b41289fd4ca4e7db1b98, type: 3}
-      propertyPath: worldCanvas
-      value: 
-      objectReference: {fileID: 362483428}
     - target: {fileID: 5503603694087002197, guid: e7760bb20542b41289fd4ca4e7db1b98, type: 3}
       propertyPath: m_Name
       value: Enemy (2)
@@ -13493,43 +13489,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 177031120}
   m_Mesh: {fileID: 4300000, guid: 318fc5659f68549feb9d55d15a12de2a, type: 3}
---- !u!84 &177874723
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 6
-  m_Width: 257
-  m_Height: 257
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 94
-  m_ColorFormat: 4
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 1
-  m_UseDynamicScale: 0
-  m_UseDynamicScaleExplicit: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 0
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1001 &178802530
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14796,7 +14755,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 250
-  textSpawner: {fileID: 0}
   coinValue: 20
 --- !u!114 &192643662
 MonoBehaviour:
@@ -15650,6 +15608,43 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 409034, guid: a4c18952442944083b1fddc06ba477c2, type: 3}
   m_PrefabInstance: {fileID: 202949693}
   m_PrefabAsset: {fileID: 0}
+--- !u!84 &204217287
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 6
+  m_Width: 257
+  m_Height: 257
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 94
+  m_ColorFormat: 4
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 1
+  m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 1
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!1001 &206282476
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -20200,7 +20195,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  textSpawner: {fileID: 0}
   coinValue: 30
 --- !u!114 &260386848
 MonoBehaviour:
@@ -27875,7 +27869,7 @@ Canvas:
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
   m_VertexColorAlwaysGammaSpace: 0
-  m_AdditionalShaderChannelsFlag: 25
+  m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
   m_SortingOrder: 5
@@ -43040,10 +43034,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4269167948587993856, guid: e7760bb20542b41289fd4ca4e7db1b98, type: 3}
-      propertyPath: worldCanvas
-      value: 
-      objectReference: {fileID: 362483428}
     - target: {fileID: 5503603694087002197, guid: e7760bb20542b41289fd4ca4e7db1b98, type: 3}
       propertyPath: m_Name
       value: Enemy (3)
@@ -75421,7 +75411,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 200
-  textSpawner: {fileID: 0}
   coinValue: 40
 --- !u!114 &999010565
 MonoBehaviour:
@@ -89074,10 +89063,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4269167948587993856, guid: e7760bb20542b41289fd4ca4e7db1b98, type: 3}
-      propertyPath: worldCanvas
-      value: 
-      objectReference: {fileID: 362483428}
     - target: {fileID: 5503603694087002197, guid: e7760bb20542b41289fd4ca4e7db1b98, type: 3}
       propertyPath: m_Name
       value: Enemy (4)
@@ -94733,6 +94718,43 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1253229558}
   m_Mesh: {fileID: 4300000, guid: 318fc5659f68549feb9d55d15a12de2a, type: 3}
+--- !u!84 &1254156706
+RenderTexture:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_ImageContentsHash:
+    serializedVersion: 2
+    Hash: 00000000000000000000000000000000
+  m_IsAlphaChannelOptional: 0
+  serializedVersion: 6
+  m_Width: 257
+  m_Height: 257
+  m_AntiAliasing: 1
+  m_MipCount: -1
+  m_DepthStencilFormat: 94
+  m_ColorFormat: 4
+  m_MipMap: 0
+  m_GenerateMips: 1
+  m_SRGB: 1
+  m_UseDynamicScale: 0
+  m_UseDynamicScaleExplicit: 0
+  m_BindMS: 0
+  m_EnableCompatibleFormat: 1
+  m_EnableRandomWrite: 0
+  m_TextureSettings:
+    serializedVersion: 2
+    m_FilterMode: 1
+    m_Aniso: 0
+    m_MipBias: 0
+    m_WrapU: 1
+    m_WrapV: 1
+    m_WrapW: 1
+  m_Dimension: 2
+  m_VolumeDepth: 1
+  m_ShadowSamplingMode: 2
 --- !u!4 &1255299156 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6970021020066904098, guid: 025248aa7affe4e249d1ecb153635008, type: 3}
@@ -111782,25 +111804,6 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!1 &1500446336 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6695692894740619886, guid: 761766e3d49a646759165c1f2394fcef, type: 3}
-  m_PrefabInstance: {fileID: 8339883563675082571}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1500446344
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1500446336}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d82dc5c8061ae14987d9cc17d2db666, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageTextPrefab: {fileID: 9182714089173834357, guid: 3c73d66eec3632c45bc47026aad69ab3, type: 3}
-  worldCanvas: {fileID: 362483428}
 --- !u!1001 &1501951301
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -112435,10 +112438,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 729095288115908782, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
-      propertyPath: m_TagString
-      value: MainCamera
-      objectReference: {fileID: 0}
     - target: {fileID: 1468401105680191591, guid: d54adc62060a44f4aa5aafcb6c9f33ae, type: 3}
       propertyPath: m_SizeDelta.x
       value: 80
@@ -114463,25 +114462,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1536366842}
   m_Mesh: {fileID: 4300000, guid: 318fc5659f68549feb9d55d15a12de2a, type: 3}
---- !u!1 &1536966347 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1845925920878454455, guid: 37b9c65f68ede480cb7132b996e3eb55, type: 3}
-  m_PrefabInstance: {fileID: 6906722021549736190}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1536966355
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1536966347}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d82dc5c8061ae14987d9cc17d2db666, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageTextPrefab: {fileID: 9182714089173834357, guid: 3c73d66eec3632c45bc47026aad69ab3, type: 3}
-  worldCanvas: {fileID: 362483428}
 --- !u!1 &1539272869
 GameObject:
   m_ObjectHideFlags: 0
@@ -116550,43 +116530,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1561826621}
   m_Mesh: {fileID: 4300000, guid: 318fc5659f68549feb9d55d15a12de2a, type: 3}
---- !u!84 &1563125799
-RenderTexture:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_ImageContentsHash:
-    serializedVersion: 2
-    Hash: 00000000000000000000000000000000
-  m_IsAlphaChannelOptional: 0
-  serializedVersion: 6
-  m_Width: 257
-  m_Height: 257
-  m_AntiAliasing: 1
-  m_MipCount: -1
-  m_DepthStencilFormat: 94
-  m_ColorFormat: 4
-  m_MipMap: 0
-  m_GenerateMips: 1
-  m_SRGB: 1
-  m_UseDynamicScale: 0
-  m_UseDynamicScaleExplicit: 0
-  m_BindMS: 0
-  m_EnableCompatibleFormat: 1
-  m_EnableRandomWrite: 0
-  m_TextureSettings:
-    serializedVersion: 2
-    m_FilterMode: 1
-    m_Aniso: 1
-    m_MipBias: 0
-    m_WrapU: 1
-    m_WrapV: 1
-    m_WrapW: 1
-  m_Dimension: 2
-  m_VolumeDepth: 1
-  m_ShadowSamplingMode: 2
 --- !u!1 &1564566840
 GameObject:
   m_ObjectHideFlags: 0
@@ -124430,7 +124373,7 @@ PrefabInstance:
     - target: {fileID: 864481296964721254, guid: 7f39401c68d0c45709be62f9687ad8b7, type: 3}
       propertyPath: m_TargetTexture
       value: 
-      objectReference: {fileID: 177874723}
+      objectReference: {fileID: 1254156706}
     - target: {fileID: 864481296964721254, guid: 7f39401c68d0c45709be62f9687ad8b7, type: 3}
       propertyPath: orthographic size
       value: 10
@@ -126545,18 +126488,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4269167948587993856, guid: e7760bb20542b41289fd4ca4e7db1b98, type: 3}
-      propertyPath: worldCanvas
-      value: 
-      objectReference: {fileID: 362483428}
     - target: {fileID: 5503603694087002197, guid: e7760bb20542b41289fd4ca4e7db1b98, type: 3}
       propertyPath: m_Name
       value: Enemy (1)
       objectReference: {fileID: 0}
-    - target: {fileID: 5667008382033704704, guid: e7760bb20542b41289fd4ca4e7db1b98, type: 3}
-      propertyPath: textSpawner
-      value: 
-      objectReference: {fileID: 1690568244}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -126567,17 +126502,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2618780667260582304, guid: e7760bb20542b41289fd4ca4e7db1b98, type: 3}
   m_PrefabInstance: {fileID: 1690568236}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1690568244 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4269167948587993856, guid: e7760bb20542b41289fd4ca4e7db1b98, type: 3}
-  m_PrefabInstance: {fileID: 1690568236}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d82dc5c8061ae14987d9cc17d2db666, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1692113485
 GameObject:
   m_ObjectHideFlags: 0
@@ -136883,10 +136807,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4269167948587993856, guid: e7760bb20542b41289fd4ca4e7db1b98, type: 3}
-      propertyPath: worldCanvas
-      value: 
-      objectReference: {fileID: 362483428}
     - target: {fileID: 5503603694087002197, guid: e7760bb20542b41289fd4ca4e7db1b98, type: 3}
       propertyPath: m_Name
       value: Enemy (5)
@@ -146422,18 +146342,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4269167948587993856, guid: e7760bb20542b41289fd4ca4e7db1b98, type: 3}
-      propertyPath: worldCanvas
-      value: 
-      objectReference: {fileID: 362483428}
     - target: {fileID: 5503603694087002197, guid: e7760bb20542b41289fd4ca4e7db1b98, type: 3}
       propertyPath: m_Name
       value: Enemy
       objectReference: {fileID: 0}
     - target: {fileID: 5667008382033704704, guid: e7760bb20542b41289fd4ca4e7db1b98, type: 3}
-      propertyPath: textSpawner
-      value: 
-      objectReference: {fileID: 1954654301}
+      propertyPath: maxHealth
+      value: 20
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -146444,17 +146360,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2618780667260582304, guid: e7760bb20542b41289fd4ca4e7db1b98, type: 3}
   m_PrefabInstance: {fileID: 1954654293}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1954654301 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4269167948587993856, guid: e7760bb20542b41289fd4ca4e7db1b98, type: 3}
-  m_PrefabInstance: {fileID: 1954654293}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d82dc5c8061ae14987d9cc17d2db666, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1957639631
 GameObject:
   m_ObjectHideFlags: 0
@@ -160293,10 +160198,6 @@ PrefabInstance:
       propertyPath: coinValue
       value: 7
       objectReference: {fileID: 0}
-    - target: {fileID: 4068171534781862445, guid: 37b9c65f68ede480cb7132b996e3eb55, type: 3}
-      propertyPath: textSpawner
-      value: 
-      objectReference: {fileID: 1536966355}
     - target: {fileID: 6356652640147826413, guid: 37b9c65f68ede480cb7132b996e3eb55, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.5
@@ -160344,10 +160245,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1845925920878454455, guid: 37b9c65f68ede480cb7132b996e3eb55, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1536966355}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 37b9c65f68ede480cb7132b996e3eb55, type: 3}
 --- !u!1001 &8339883563675082571
 PrefabInstance:
@@ -160369,10 +160267,6 @@ PrefabInstance:
       propertyPath: coinValue
       value: 10
       objectReference: {fileID: 0}
-    - target: {fileID: 5505423960567262687, guid: 761766e3d49a646759165c1f2394fcef, type: 3}
-      propertyPath: textSpawner
-      value: 
-      objectReference: {fileID: 1500446344}
     - target: {fileID: 6695692894740619886, guid: 761766e3d49a646759165c1f2394fcef, type: 3}
       propertyPath: m_Name
       value: DemonEnemies(lvl3)
@@ -160420,10 +160314,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6695692894740619886, guid: 761766e3d49a646759165c1f2394fcef, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1500446344}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 761766e3d49a646759165c1f2394fcef, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

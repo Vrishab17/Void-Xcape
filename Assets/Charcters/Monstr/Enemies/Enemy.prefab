@@ -1403,7 +1403,6 @@ GameObject:
   - component: {fileID: 397164864409279071}
   - component: {fileID: 5667008382033704704}
   - component: {fileID: 8091860277818071579}
-  - component: {fileID: 4269167948587993856}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Untagged
@@ -1530,7 +1529,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 20
-  textSpawner: {fileID: 4269167948587993856}
   coinValue: 5
 --- !u!114 &8091860277818071579
 MonoBehaviour:
@@ -1551,20 +1549,6 @@ MonoBehaviour:
   initialIconRotation: 0
   clampIconInBorder: 1
   clampDistance: 20
---- !u!114 &4269167948587993856
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5503603694087002197}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d82dc5c8061ae14987d9cc17d2db666, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageTextPrefab: {fileID: 9182714089173834357, guid: 3c73d66eec3632c45bc47026aad69ab3, type: 3}
-  worldCanvas: {fileID: 0}
 --- !u!1 &5538031513179650393
 GameObject:
   m_ObjectHideFlags: 0
