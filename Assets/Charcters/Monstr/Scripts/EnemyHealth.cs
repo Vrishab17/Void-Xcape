@@ -4,6 +4,7 @@ public class EnemyHealth : MonoBehaviour
 {
     public float maxHealth = 100f;
     private float currentHealth;
+    public DamageTextSpawner textSpawner;
 
     public int coinValue = 5;
     private Animator animator;
@@ -22,16 +23,24 @@ public class EnemyHealth : MonoBehaviour
     }
 
     public void TakeDamage(float amount)
+{
+    if (isDead) return;
+
+    currentHealth -= amount;
+
+    // Show damage number
+    if (textSpawner != null)
     {
-        if (isDead) return;
-
-        currentHealth -= amount;
-
-        if (currentHealth <= 0f)
-        {
-            Die();
-        }
+        Vector3 hitPosition = transform.position + Vector3.up * 2f;
+        textSpawner.ShowDamage(amount, hitPosition);
     }
+
+    if (currentHealth <= 0f)
+    {
+        Die();
+    }
+}
+
 
     void Die()
 {
