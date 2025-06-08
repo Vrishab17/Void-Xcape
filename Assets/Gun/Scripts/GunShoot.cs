@@ -27,6 +27,8 @@ public class GunShoot : MonoBehaviour
 
     [Header("Audio")]
     [SerializeField] private AudioClip FIREClip;
+    [SerializeField] private AudioClip RELOADClip;
+    
     [SerializeField] private AudioSource gunAudioSource;
     [SerializeField] private float fireInterval = 0.1f; // Time between shots
 
@@ -104,6 +106,7 @@ public class GunShoot : MonoBehaviour
     {
         isReloading = true;
         Debug.Log("Reloading...");
+        gunAudioSource.PlayOneShot(RELOADClip);
         yield return new WaitForSeconds(reloadTime);
         currentAmmo = maxAmmo;
         isReloading = false;
