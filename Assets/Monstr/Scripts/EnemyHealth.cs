@@ -6,7 +6,7 @@ public class EnemyHealth : MonoBehaviour
     private float currentHealth;
 
     private Animator animator;
-    private bool isDead = false;
+    public bool isDead = false;
 
     void Start()
     {

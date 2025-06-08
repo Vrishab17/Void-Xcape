@@ -1,2 +1,13 @@
 fileFormatVersion: 2
 guid: 12d7536f1ae684c30b4c47b65689e8bb
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - playerGun: {instanceID: 0}
+  - PICKUPClip: {fileID: 8300000, guid: 13fe1d0acf270684b8752bafe32cc70f, type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

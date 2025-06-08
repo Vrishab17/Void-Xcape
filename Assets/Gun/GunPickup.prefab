@@ -97,6 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerGun: {fileID: 0}
+  PICKUPClip: {fileID: 8300000, guid: 13fe1d0acf270684b8752bafe32cc70f, type: 3}
 --- !u!114 &8524825876247119083
 MonoBehaviour:
   m_ObjectHideFlags: 0

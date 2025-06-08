@@ -10,6 +10,7 @@ public class EnemyAI : MonoBehaviour
     private PlayerHealth playerHealth;
     private Animator animator;
     private NavMeshAgent agent;
+    private EnemyHealth enemyHealth; // NEW: Reference to EnemyHealth
 
     [Header("Detection Settings")]
     public float detectionRange = 10f;
@@ -25,10 +26,25 @@ public class EnemyAI : MonoBehaviour
 
     private float wanderTimer;
     private bool isChasing = false;
+    private bool wasChasing = false; // Track previous state for audio triggers
+
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip WALKClip;
+    [SerializeField] private AudioClip YELLClip;
+    [SerializeField] private AudioClip ATTACKClip; // NEW: Attack sound
+    [SerializeField] private float walkStepInterval = 0.5f;
+    [SerializeField] private float chaseStepInterval = 0.3f; // Faster steps when chasing
+    [SerializeField] private float yellInterval = 3f; // Time between yells
+    
+    private float walkStepTimer = 0f;
+    private float yellTimer = 0f;
+    private bool hasYelledOnDetection = false;
+    private bool isCurrentlyAttacking = false; // NEW: Track attack state
 
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
+        enemyHealth = GetComponent<EnemyHealth>(); // NEW: Get EnemyHealth reference
 
         if (enemyBodyModel != null)
             animator = enemyBodyModel.GetComponent<Animator>();
@@ -45,19 +61,33 @@ public class EnemyAI : MonoBehaviour
         if (player == null || animator == null || !agent.isOnNavMesh)
             return;
 
+        // NEW: Check if enemy is dead - stop all behavior if dead
+        if (enemyHealth != null && enemyHealth.isDead)
+            return;
+
         float distance = Vector3.Distance(transform.position, player.position);
+        wasChasing = isChasing; // Store previous state
+        bool wasAttacking = isCurrentlyAttacking; // Store previous attack state
 
         if (distance <= attackRange)
         {
             isChasing = true;
+            isCurrentlyAttacking = true; // NEW: Set attack state
             agent.SetDestination(transform.position);
             animator.SetBool("IsRunning", false);
             animator.SetBool("IsAttacking", true);
             animator.SetBool("IsWalking", false);
+
+            // NEW: Trigger attack sound when starting to attack
+            if (!wasAttacking)
+            {
+                TriggerAttackSound();
+            }
         }
         else if (distance <= detectionRange)
         {
             isChasing = true;
+            isCurrentlyAttacking = false; // NEW: Not attacking when chasing
             agent.isStopped = false;
             agent.speed = 6f;
             agent.SetDestination(player.position);
@@ -66,15 +96,26 @@ public class EnemyAI : MonoBehaviour
             animator.SetBool("IsRunning", true);
             animator.SetBool("IsAttacking", false);
             animator.SetBool("IsWalking", false);
+
+            // Trigger yell when first detecting player
+            if (!wasChasing && !hasYelledOnDetection)
+            {
+                TriggerYell();
+                hasYelledOnDetection = true;
+                yellTimer = yellInterval; // Set timer for next yell
+            }
         }
         else if (isChasing && distance > giveUpRange)
         {
             isChasing = false;
+            isCurrentlyAttacking = false; // NEW: Reset attack state
+            hasYelledOnDetection = false; // Reset for next detection
             SetRandomDestination();
         }
 
         if (!isChasing)
         {
+            isCurrentlyAttacking = false; // NEW: Reset attack state when not chasing
             wanderTimer -= Time.deltaTime;
 
             if (!agent.pathPending && agent.remainingDistance < 0.5f || wanderTimer <= 0f)
@@ -87,9 +128,90 @@ public class EnemyAI : MonoBehaviour
             animator.SetBool("IsRunning", false);
             animator.SetBool("IsAttacking", false);
             animator.SetBool("IsWalking", true);
+
+            // Reset audio timers when not chasing
+            hasYelledOnDetection = false;
+            yellTimer = 0f;
         }
 
         animator.SetFloat("Speed", agent.velocity.magnitude);
+
+        // Handle Audio
+        HandleMovementAudio();
+        HandleYellAudio();
+    }
+
+    private void HandleMovementAudio()
+    {
+        // NEW: Don't play audio if enemy is dead
+        if (enemyHealth != null && enemyHealth.isDead)
+            return;
+
+        // Check if enemy is moving (agent velocity > small threshold)
+        bool isMoving = agent.velocity.magnitude > 0.1f;
+
+        if (isMoving && WALKClip != null && SFXManager.instance != null)
+        {
+            // Set step interval based on movement state
+            float currentStepInterval = isChasing ? chaseStepInterval : walkStepInterval;
+            
+            walkStepTimer -= Time.deltaTime;
+
+            if (walkStepTimer <= 0f)
+            {
+                SFXManager.instance.PlayClip(WALKClip, transform);
+                walkStepTimer = currentStepInterval;
+            }
+        }
+        else
+        {
+            // Reset timer when not moving to avoid clip spam
+            walkStepTimer = 0f;
+        }
+    }
+
+    private void HandleYellAudio()
+    {
+        // NEW: Don't play audio if enemy is dead
+        if (enemyHealth != null && enemyHealth.isDead)
+            return;
+
+        // Handle periodic yelling while chasing
+        if (isChasing && YELLClip != null && SFXManager.instance != null)
+        {
+            yellTimer -= Time.deltaTime;
+
+            if (yellTimer <= 0f)
+            {
+                TriggerYell();
+                yellTimer = yellInterval; // Reset timer
+            }
+        }
+    }
+
+    private void TriggerYell()
+    {
+        // NEW: Don't play audio if enemy is dead
+        if (enemyHealth != null && enemyHealth.isDead)
+            return;
+
+        if (YELLClip != null && SFXManager.instance != null)
+        {
+            SFXManager.instance.PlayClip(YELLClip, transform);
+        }
+    }
+
+    // NEW: Method to trigger attack sound
+    private void TriggerAttackSound()
+    {
+        // NEW: Don't play audio if enemy is dead
+        if (enemyHealth != null && enemyHealth.isDead)
+            return;
+
+        if (ATTACKClip != null && SFXManager.instance != null)
+        {
+            SFXManager.instance.PlayClip(ATTACKClip, transform);
+        }
     }
 
     private void SetRandomDestination()
@@ -113,11 +235,15 @@ public class EnemyAI : MonoBehaviour
         if (distance <= attackRange)
         {
             playerHealth.TakeDamage(damageAmount);
+            // NEW: Optional - trigger attack sound on actual damage deal
+            // TriggerAttackSound();
         }
     }
 
     public void DealDamage2()
     {
         DealDamageToPlayer();
+        // NEW: Optional - trigger attack sound on damage method call
+        // TriggerAttackSound();
     }
 }

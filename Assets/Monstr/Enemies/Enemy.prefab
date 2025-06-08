@@ -1469,6 +1469,12 @@ MonoBehaviour:
   damageAmount: 5
   wanderRadius: 20
   wanderInterval: 8
+  WALKClip: {fileID: 8300000, guid: bb6e00a9ebf2a864eb0602f4e32fd7c9, type: 3}
+  YELLClip: {fileID: 8300000, guid: 960a9213c3ebcb8439c77b53682c97b8, type: 3}
+  ATTACKClip: {fileID: 8300000, guid: ee1a6a7efcb8b3547b5e176e21250faa, type: 3}
+  walkStepInterval: 0.5
+  chaseStepInterval: 0.3
+  yellInterval: 3
 --- !u!195 &4304937789842257443
 NavMeshAgent:
   m_ObjectHideFlags: 0

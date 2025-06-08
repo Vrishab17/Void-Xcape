@@ -1,2 +1,18 @@
 fileFormatVersion: 2
 guid: e1034727c450a43d794649d13f7bc635
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - ammoText: {instanceID: 0}
+  - fpsCam: {instanceID: 0}
+  - muzzleFlashImage: {instanceID: 0}
+  - impactEffect: {instanceID: 0}
+  - FIREClip: {instanceID: 0}
+  - RELOADClip: {fileID: 8300000, guid: 66dafae94738bc14c853e56518d72941, type: 3}
+  - gunAudioSource: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
