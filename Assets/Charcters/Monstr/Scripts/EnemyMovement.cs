@@ -10,12 +10,17 @@ public class EnemyAI : MonoBehaviour
     private PlayerHealth playerHealth;
     private Animator animator;
     private NavMeshAgent agent;
-    private EnemyHealth enemyHealth; // NEW: Reference to EnemyHealth
+    private EnemyHealth enemyHealth;
 
     [Header("Detection Settings")]
     public float detectionRange = 10f;
     public float attackRange = 2f;
     public float giveUpRange = 20f;
+
+    [Header("Movement Settings")]
+    public float runSpeed = 6f;
+    public float walkSpeed = 2f;
+    public float acceleration = 80f;
 
     [Header("Attack Settings")]
     public float damageAmount = 10f;
@@ -26,25 +31,31 @@ public class EnemyAI : MonoBehaviour
 
     private float wanderTimer;
     private bool isChasing = false;
-    private bool wasChasing = false; // Track previous state for audio triggers
+    private bool isAttackingState = false;
 
     [Header("Audio Settings")]
     [SerializeField] private AudioClip WALKClip;
     [SerializeField] private AudioClip YELLClip;
-    [SerializeField] private AudioClip ATTACKClip; // NEW: Attack sound
+    [SerializeField] private AudioClip ATTACKClip;
     [SerializeField] private float walkStepInterval = 0.5f;
-    [SerializeField] private float chaseStepInterval = 0.3f; // Faster steps when chasing
-    [SerializeField] private float yellInterval = 3f; // Time between yells
-    
+    [SerializeField] private float chaseStepInterval = 0.3f;
+    [SerializeField] private float yellInterval = 3f;
+
     private float walkStepTimer = 0f;
     private float yellTimer = 0f;
     private bool hasYelledOnDetection = false;
-    private bool isCurrentlyAttacking = false; // NEW: Track attack state
+    private bool isCurrentlyAttacking = false;
+    private bool wasChasing = false;
 
     private void Start()
     {
         agent = GetComponent<NavMeshAgent>();
-        enemyHealth = GetComponent<EnemyHealth>(); // NEW: Get EnemyHealth reference
+        agent.speed = walkSpeed;
+        agent.acceleration = acceleration;
+        agent.angularSpeed = 999f;
+        agent.autoBraking = false;
+
+        enemyHealth = GetComponent<EnemyHealth>();
 
         if (enemyBodyModel != null)
             animator = enemyBodyModel.GetComponent<Animator>();
@@ -58,32 +69,65 @@ public class EnemyAI : MonoBehaviour
 
     private void Update()
     {
-        if (player == null || animator == null || !agent.isOnNavMesh)
+        if (player == null || animator == null)
             return;
 
-        // NEW: Check if enemy is dead - stop all behavior if dead
         if (enemyHealth != null && enemyHealth.isDead)
             return;
 
         float distance = Vector3.Distance(transform.position, player.position);
-        wasChasing = isChasing; // Store previous state
-        bool wasAttacking = isCurrentlyAttacking; // Store previous attack state
+        bool inAttackRange = distance <= attackRange;
 
-        if (distance <= attackRange)
+        wasChasing = isChasing;
+        bool wasAttacking = isCurrentlyAttacking;
+
+        // Stop attacking if out of range
+        if (!inAttackRange && animator.GetBool("IsAttacking"))
+            animator.SetBool("IsAttacking", false);
+
+        // Handle attack behavior
+        if (animator.GetBool("IsAttacking"))
+        {
+            if (!isAttackingState)
+            {
+                isAttackingState = true;
+                StopMovement();
+                animator.SetFloat("Speed", 0f);
+                animator.SetBool("IsRunning", false);
+            }
+        }
+        else
+        {
+            if (isAttackingState)
+            {
+                isAttackingState = false;
+                ResumeMovement();
+                animator.SetBool("IsRunning", true);
+            }
+
+            if (agent.enabled)
+                animator.SetFloat("Speed", agent.velocity.magnitude);
+        }
+
+        if (!agent.enabled || !agent.isOnNavMesh)
+            return;
+
+        if (inAttackRange && !animator.GetBool("IsAttacking"))
         {
             isChasing = true;
-            isCurrentlyAttacking = true; // NEW: Set attack state
+            isCurrentlyAttacking = true;
             agent.SetDestination(transform.position);
-            animator.SetBool("IsRunning", false);
             animator.SetBool("IsAttacking", true);
-            animator.SetBool("IsWalking", false);
+            animator.SetBool("IsRunning", false);
+
+            FacePlayer();
         }
         else if (distance <= detectionRange)
         {
             isChasing = true;
-            isCurrentlyAttacking = false; // NEW: Not attacking when chasing
+            isCurrentlyAttacking = false;
             agent.isStopped = false;
-            agent.speed = 6f;
+            agent.speed = runSpeed;
             agent.SetDestination(player.position);
 
             animator.SetBool("IsDetected", true);
@@ -91,25 +135,24 @@ public class EnemyAI : MonoBehaviour
             animator.SetBool("IsAttacking", false);
             animator.SetBool("IsWalking", false);
 
-            // Trigger yell when first detecting player
             if (!wasChasing && !hasYelledOnDetection)
             {
                 TriggerYell();
                 hasYelledOnDetection = true;
-                yellTimer = yellInterval; // Set timer for next yell
+                yellTimer = yellInterval;
             }
         }
         else if (isChasing && distance > giveUpRange)
         {
             isChasing = false;
-            isCurrentlyAttacking = false; // NEW: Reset attack state
-            hasYelledOnDetection = false; // Reset for next detection
+            isCurrentlyAttacking = false;
+            hasYelledOnDetection = false;
             SetRandomDestination();
         }
 
-        if (!isChasing)
+        if (!isChasing && !animator.GetBool("IsAttacking"))
         {
-            isCurrentlyAttacking = false; // NEW: Reset attack state when not chasing
+            isCurrentlyAttacking = false;
             wanderTimer -= Time.deltaTime;
 
             if (!agent.pathPending && agent.remainingDistance < 0.5f || wanderTimer <= 0f)
@@ -123,76 +166,51 @@ public class EnemyAI : MonoBehaviour
             animator.SetBool("IsAttacking", false);
             animator.SetBool("IsWalking", true);
 
-            // Reset audio timers when not chasing
             hasYelledOnDetection = false;
             yellTimer = 0f;
         }
 
-        animator.SetFloat("Speed", agent.velocity.magnitude);
-
-        // Handle Audio
         HandleMovementAudio();
         HandleYellAudio();
     }
 
-    private void HandleMovementAudio()
+    private void StopMovement()
     {
-        // NEW: Don't play audio if enemy is dead
-        if (enemyHealth != null && enemyHealth.isDead)
-            return;
-
-        // Check if enemy is moving (agent velocity > small threshold)
-        bool isMoving = agent.velocity.magnitude > 0.1f;
-
-        if (isMoving && WALKClip != null && SFXManager.instance != null)
+        if (agent.enabled)
         {
-            // Set step interval based on movement state
-            float currentStepInterval = isChasing ? chaseStepInterval : walkStepInterval;
-            
-            walkStepTimer -= Time.deltaTime;
-
-            if (walkStepTimer <= 0f)
-            {
-                SFXManager.instance.PlayClip(WALKClip, transform);
-                walkStepTimer = currentStepInterval;
-            }
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+            agent.enabled = false;
         }
-        else
+
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
         {
-            // Reset timer when not moving to avoid clip spam
-            walkStepTimer = 0f;
+            rb.velocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.isKinematic = true;
         }
     }
 
-    private void HandleYellAudio()
+    private void ResumeMovement()
     {
-        // NEW: Don't play audio if enemy is dead
-        if (enemyHealth != null && enemyHealth.isDead)
-            return;
-
-        // Handle periodic yelling while chasing
-        if (isChasing && YELLClip != null && SFXManager.instance != null)
+        if (!agent.enabled)
         {
-            yellTimer -= Time.deltaTime;
-
-            if (yellTimer <= 0f)
-            {
-                TriggerYell();
-                yellTimer = yellInterval; // Reset timer
-            }
+            agent.enabled = true;
+            agent.isStopped = false;
         }
+
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+            rb.isKinematic = false;
     }
 
-    private void TriggerYell()
+    private void FacePlayer()
     {
-        // NEW: Don't play audio if enemy is dead
-        if (enemyHealth != null && enemyHealth.isDead)
-            return;
-
-        if (YELLClip != null && SFXManager.instance != null)
-        {
-            SFXManager.instance.PlayClip(YELLClip, transform);
-        }
+        Vector3 lookDir = (player.position - transform.position).normalized;
+        lookDir.y = 0f;
+        Quaternion lookRot = Quaternion.LookRotation(lookDir);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, Time.deltaTime * 10f);
     }
 
     private void SetRandomDestination()
@@ -203,7 +221,7 @@ public class EnemyAI : MonoBehaviour
         if (NavMesh.SamplePosition(randomDirection, out NavMeshHit hit, wanderRadius, NavMesh.AllAreas))
         {
             agent.isStopped = false;
-            agent.speed = 2f;
+            agent.speed = walkSpeed;
             agent.SetDestination(hit.position);
         }
     }
@@ -216,8 +234,59 @@ public class EnemyAI : MonoBehaviour
         if (distance <= attackRange)
         {
             playerHealth.TakeDamage(damageAmount);
-            SFXManager.instance.PlayClip(ATTACKClip, transform);
+            if (SFXManager.instance != null && ATTACKClip != null)
+                SFXManager.instance.PlayClip(ATTACKClip, transform);
         }
     }
 
+    private void HandleMovementAudio()
+    {
+        if (enemyHealth != null && enemyHealth.isDead)
+            return;
+
+        bool isMoving = agent.velocity.magnitude > 0.1f;
+
+        if (isMoving && WALKClip != null && SFXManager.instance != null)
+        {
+            float interval = isChasing ? chaseStepInterval : walkStepInterval;
+            walkStepTimer -= Time.deltaTime;
+
+            if (walkStepTimer <= 0f)
+            {
+                SFXManager.instance.PlayClip(WALKClip, transform);
+                walkStepTimer = interval;
+            }
+        }
+        else
+        {
+            walkStepTimer = 0f;
+        }
+    }
+
+    private void HandleYellAudio()
+    {
+        if (enemyHealth != null && enemyHealth.isDead)
+            return;
+
+        if (isChasing && YELLClip != null && SFXManager.instance != null)
+        {
+            yellTimer -= Time.deltaTime;
+            if (yellTimer <= 0f)
+            {
+                TriggerYell();
+                yellTimer = yellInterval;
+            }
+        }
+    }
+
+    private void TriggerYell()
+    {
+        if (enemyHealth != null && enemyHealth.isDead)
+            return;
+
+        if (YELLClip != null && SFXManager.instance != null)
+        {
+            SFXManager.instance.PlayClip(YELLClip, transform);
+        }
+    }
 }
