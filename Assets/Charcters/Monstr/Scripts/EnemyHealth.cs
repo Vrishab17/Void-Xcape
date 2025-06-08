@@ -8,7 +8,7 @@ public class EnemyHealth : MonoBehaviour
 
     public int coinValue = 5;
     private Animator animator;
-    private bool isDead = false;
+    public bool isDead = false;
 
 
     void Start()
