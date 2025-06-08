@@ -10,7 +10,7 @@ public class DamageTextSpawner : MonoBehaviour
     {
         if (damageTextPrefab == null || worldCanvas == null)
         {
-            Debug.LogError("❌ Missing prefab or canvas reference!");
+            Debug.LogError("Missing prefab or canvas reference!");
             return;
         }
 
@@ -24,7 +24,7 @@ public class DamageTextSpawner : MonoBehaviour
         }
         else
         {
-            Debug.LogError("❌ TMP component not found on DamageText prefab.");
+            Debug.LogError("TMP component not found on DamageText prefab.");
         }
 
         Destroy(textGO, 1.5f); // auto-destroy after 1.5 seconds
