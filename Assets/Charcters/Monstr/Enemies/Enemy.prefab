@@ -1468,6 +1468,9 @@ MonoBehaviour:
   detectionRange: 30
   attackRange: 2
   giveUpRange: 10
+  runSpeed: 6
+  walkSpeed: 2
+  acceleration: 10
   damageAmount: 5
   wanderRadius: 20
   wanderInterval: 8
