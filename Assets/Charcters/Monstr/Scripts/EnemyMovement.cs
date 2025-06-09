@@ -6,10 +6,11 @@ public class EnemyAI : MonoBehaviour
     [Header("References")]
     public GameObject enemyBodyModel;
     public Transform player;
-    public int coinValue = 5;
+
     private PlayerHealth playerHealth;
     private Animator animator;
     private NavMeshAgent agent;
+    private EnemyHealth enemyHealth;
 
     [Header("Detection Settings")]
     public float detectionRange = 10f;
@@ -28,6 +29,10 @@ public class EnemyAI : MonoBehaviour
     public float wanderRadius = 15f;
     public float wanderInterval = 5f;
 
+    private float wanderTimer;
+    private bool isChasing = false;
+    private bool isAttackingState = false;
+
     [Header("Audio Settings")]
     [SerializeField] private AudioClip WALKClip;
     [SerializeField] private AudioClip YELLClip;
@@ -39,13 +44,8 @@ public class EnemyAI : MonoBehaviour
     private float walkStepTimer = 0f;
     private float yellTimer = 0f;
     private bool hasYelledOnDetection = false;
-
-    private float wanderTimer;
-    private bool isChasing = false;
-    private bool isDead = false;
-    private bool isAttackingState = false;
-
-    public int health = 100;
+    private bool isCurrentlyAttacking = false;
+    private bool wasChasing = false;
 
     private void Start()
     {
@@ -54,6 +54,8 @@ public class EnemyAI : MonoBehaviour
         agent.acceleration = acceleration;
         agent.angularSpeed = 999f;
         agent.autoBraking = false;
+
+        enemyHealth = GetComponent<EnemyHealth>();
 
         if (enemyBodyModel != null)
             animator = enemyBodyModel.GetComponent<Animator>();
@@ -67,38 +69,34 @@ public class EnemyAI : MonoBehaviour
 
     private void Update()
     {
-        if (player == null || animator == null || isDead)
+        if (player == null || animator == null)
             return;
+
+        if (enemyHealth != null && enemyHealth.isDead)
+        {
+            StopMovement();
+            animator.SetFloat("Speed", 0f);
+            animator.SetBool("IsRunning", false);
+            animator.SetBool("IsWalking", false);
+            animator.SetBool("IsAttacking", false);
+            return;
+        }
 
         float distance = Vector3.Distance(transform.position, player.position);
         bool inAttackRange = distance <= attackRange;
 
+        wasChasing = isChasing;
+        bool wasAttacking = isCurrentlyAttacking;
+
         if (!inAttackRange && animator.GetBool("IsAttacking"))
-        {
             animator.SetBool("IsAttacking", false);
-        }
 
         if (animator.GetBool("IsAttacking"))
         {
             if (!isAttackingState)
             {
                 isAttackingState = true;
-
-                if (agent.enabled)
-                {
-                    agent.isStopped = true;
-                    agent.velocity = Vector3.zero;
-                    agent.enabled = false;
-                }
-
-                Rigidbody rb = GetComponent<Rigidbody>();
-                if (rb != null)
-                {
-                    rb.linearVelocity = Vector3.zero;
-                    rb.angularVelocity = Vector3.zero;
-                    rb.isKinematic = true;
-                }
-
+                StopMovement();
                 animator.SetFloat("Speed", 0f);
                 animator.SetBool("IsRunning", false);
             }
@@ -108,70 +106,57 @@ public class EnemyAI : MonoBehaviour
             if (isAttackingState)
             {
                 isAttackingState = false;
-
-                if (!agent.enabled)
-                {
-                    agent.enabled = true;
-                    agent.isStopped = false;
-                }
-
-                Rigidbody rb = GetComponent<Rigidbody>();
-                if (rb != null)
-                    rb.isKinematic = false;
-
+                ResumeMovement();
                 animator.SetBool("IsRunning", true);
             }
 
-            if (!isDead && agent.enabled)
-            {
+            if (agent.enabled)
                 animator.SetFloat("Speed", agent.velocity.magnitude);
-            }
         }
 
-        if (!agent.enabled || !agent.isOnNavMesh) return;
+        if (!agent.enabled || !agent.isOnNavMesh)
+            return;
 
         if (inAttackRange && !animator.GetBool("IsAttacking"))
         {
-            animator.SetBool("IsAttacking", true);
             isChasing = true;
-
-            Vector3 lookDir = (player.position - transform.position).normalized;
-            lookDir.y = 0f;
-            Quaternion lookRot = Quaternion.LookRotation(lookDir);
-            transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, Time.deltaTime * 10f);
+            isCurrentlyAttacking = true;
+            agent.SetDestination(transform.position);
+            animator.SetBool("IsAttacking", true);
+            animator.SetBool("IsRunning", false);
+            FacePlayer();
         }
         else if (distance <= detectionRange)
         {
-            Vector3 directionToPlayer = (player.position - transform.position).normalized;
-            Ray ray = new Ray(transform.position + Vector3.up * 1.5f, directionToPlayer);
+            isChasing = true;
+            isCurrentlyAttacking = false;
+            agent.isStopped = false;
+            agent.speed = runSpeed;
+            agent.SetDestination(player.position);
 
-            if (Physics.Raycast(ray, out RaycastHit hit, detectionRange))
+            animator.SetBool("IsDetected", true);
+            animator.SetBool("IsRunning", true);
+            animator.SetBool("IsAttacking", false);
+            animator.SetBool("IsWalking", false);
+
+            if (!wasChasing && !hasYelledOnDetection)
             {
-                if (hit.transform == player)
-                {
-                    isChasing = true;
-                    agent.isStopped = false;
-                    agent.speed = runSpeed;
-                    agent.SetDestination(player.position);
-
-                    if (!hasYelledOnDetection)
-                    {
-                        TriggerYell();
-                        hasYelledOnDetection = true;
-                        yellTimer = yellInterval;
-                    }
-                }
+                TriggerYell();
+                hasYelledOnDetection = true;
+                yellTimer = yellInterval;
             }
         }
         else if (isChasing && distance > giveUpRange)
         {
             isChasing = false;
+            isCurrentlyAttacking = false;
             hasYelledOnDetection = false;
             SetRandomDestination();
         }
 
         if (!isChasing && !animator.GetBool("IsAttacking"))
         {
+            isCurrentlyAttacking = false;
             wanderTimer -= Time.deltaTime;
 
             if (!agent.pathPending && agent.remainingDistance < 0.5f || wanderTimer <= 0f)
@@ -180,12 +165,56 @@ public class EnemyAI : MonoBehaviour
                 wanderTimer = wanderInterval;
             }
 
+            animator.SetBool("IsDetected", false);
+            animator.SetBool("IsRunning", false);
+            animator.SetBool("IsAttacking", false);
+            animator.SetBool("IsWalking", true);
+
             hasYelledOnDetection = false;
             yellTimer = 0f;
         }
 
         HandleMovementAudio();
         HandleYellAudio();
+    }
+
+    private void StopMovement()
+    {
+        if (agent.enabled)
+        {
+            agent.isStopped = true;
+            agent.velocity = Vector3.zero;
+            agent.enabled = false;
+        }
+
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector3.zero;
+            rb.angularVelocity = Vector3.zero;
+            rb.isKinematic = true;
+        }
+    }
+
+    private void ResumeMovement()
+    {
+        if (!agent.enabled)
+        {
+            agent.enabled = true;
+            agent.isStopped = false;
+        }
+
+        Rigidbody rb = GetComponent<Rigidbody>();
+        if (rb != null)
+            rb.isKinematic = false;
+    }
+
+    private void FacePlayer()
+    {
+        Vector3 lookDir = (player.position - transform.position).normalized;
+        lookDir.y = 0f;
+        Quaternion lookRot = Quaternion.LookRotation(lookDir);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, Time.deltaTime * 10f);
     }
 
     private void SetRandomDestination()
@@ -203,63 +232,24 @@ public class EnemyAI : MonoBehaviour
 
     public void DealDamageToPlayer()
     {
+        if (enemyHealth != null && enemyHealth.isDead)
+            return;
+
         if (playerHealth == null) return;
 
         float distance = Vector3.Distance(transform.position, player.position);
         if (distance <= attackRange)
         {
             playerHealth.TakeDamage(damageAmount);
-
             if (SFXManager.instance != null && ATTACKClip != null)
                 SFXManager.instance.PlayClip(ATTACKClip, transform);
         }
     }
 
-    public void DealDamage2()
-    {
-        DealDamageToPlayer();
-    }
-
-    public void Die()
-    {
-        if (isDead) return;
-        isDead = true;
-
-        agent.isStopped = true;
-        agent.velocity = Vector3.zero;
-        agent.enabled = false;
-        animator.SetFloat("Speed", 0f);
-
-        Rigidbody rb = GetComponent<Rigidbody>();
-        if (rb != null)
-        {
-            rb.linearVelocity = Vector3.zero;
-            rb.angularVelocity = Vector3.zero;
-            rb.isKinematic = true;
-        }
-
-        Collider col = GetComponent<Collider>();
-        if (col != null)
-            col.enabled = false;
-
-        animator.SetTrigger("Die");
-
-        if (CoinManager.Instance != null)
-            CoinManager.Instance.AddCoins(coinValue);
-
-        Destroy(gameObject, 3f);
-    }
-
-    public void TakeDamage(int amount)
-    {
-        health -= amount;
-        if (health <= 0)
-            Die();
-    }
-
     private void HandleMovementAudio()
     {
-        if (isDead) return;
+        if (enemyHealth != null && enemyHealth.isDead)
+            return;
 
         bool isMoving = agent.velocity.magnitude > 0.1f;
 
@@ -282,7 +272,8 @@ public class EnemyAI : MonoBehaviour
 
     private void HandleYellAudio()
     {
-        if (isDead) return;
+        if (enemyHealth != null && enemyHealth.isDead)
+            return;
 
         if (isChasing && YELLClip != null && SFXManager.instance != null)
         {
@@ -297,7 +288,8 @@ public class EnemyAI : MonoBehaviour
 
     private void TriggerYell()
     {
-        if (isDead) return;
+        if (enemyHealth != null && enemyHealth.isDead)
+            return;
 
         if (YELLClip != null && SFXManager.instance != null)
         {
