@@ -2,117 +2,122 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
+using UnityEngine.UI;
+using UnityEngine.Audio; // Add this for AudioMixer
 public class PauseMenu : MonoBehaviour
 {
-    [Header("UI References")]
+    [Header("Pause Menu")]
     public GameObject pauseMenuUI;
-    
-    [Header("Settings")]
     public KeyCode pauseKey = KeyCode.P;
-    public KeyCode alternatePauseKey = KeyCode.Escape; // Common alternative
-    
+    public KeyCode alternatePauseKey = KeyCode.Escape;
+   
+    [Header("Audio Settings")]
+    public Slider volumeSlider; // Assign in Inspector
+    public AudioMixer MainAudioMixer; // Assign in Inspector
+   
     public static bool GameIsPaused = false;
-    
-    // Events for other scripts to listen to
-    public static System.Action<bool> OnPauseStateChanged;
-    
+   
     void Start()
     {
-        // Ensure pause menu starts inactive
+        // Audio setup
+        if (volumeSlider != null && MainAudioMixer != null)
+        {
+            // Set min and max values for volume in decibels
+            volumeSlider.minValue = -80f;
+            volumeSlider.maxValue = 20f;
+           
+            // Load saved volume (default to 0 dB) and apply to slider + mixer
+            float savedVolume = PlayerPrefs.GetFloat("volume", 0f);
+            volumeSlider.value = savedVolume;
+            MainAudioMixer.SetFloat("Volume", savedVolume);
+           
+            // Update volume live on slider change
+            volumeSlider.onValueChanged.AddListener(SetVolume);
+        }
+       
+        // Pause menu setup
         if (pauseMenuUI != null)
             pauseMenuUI.SetActive(false);
-            
-        // Reset pause state on scene start
+           
         GameIsPaused = false;
         Time.timeScale = 1f;
     }
-    
+   
     void Update()
     {
-        // Check for pause input
         if (Input.GetKeyDown(pauseKey) || Input.GetKeyDown(alternatePauseKey))
         {
             if (GameIsPaused)
-            {
                 Resume();
-            }
             else
-            {
                 Pause();
-            }
         }
     }
-    
+   
+    // Add the SetVolume method
+    public void SetVolume(float volume)
+    {
+        MainAudioMixer.SetFloat("Volume", volume);
+        PlayerPrefs.SetFloat("volume", volume);
+        PlayerPrefs.Save();
+    }
+   
     public void Resume()
     {
         if (pauseMenuUI != null)
             pauseMenuUI.SetActive(false);
-            
+           
         Time.timeScale = 1f;
         GameIsPaused = false;
-        
-        // Lock cursor back for gameplay
+       
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
-        
-        // Notify other scripts
-        OnPauseStateChanged?.Invoke(false);
-        
-        Debug.Log("Game Resumed");
     }
-    
+   
     public void Pause()
     {
         if (pauseMenuUI != null)
             pauseMenuUI.SetActive(true);
-        else
-        {
-            Debug.LogError("Pause Menu UI is not assigned!");
-            return;
-        }
-            
+           
         Time.timeScale = 0f;
         GameIsPaused = true;
-        
-        // Unlock and show cursor for menu interaction
+       
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        
-        // Notify other scripts
-        OnPauseStateChanged?.Invoke(true);
-        
-        Debug.Log("Game Paused");
     }
-    
-    public void MainMenu()
-    {
-        Debug.Log("Loading Main Menu...");
-        Time.timeScale = 1f;
-        GameIsPaused = false;
-        
-        // Make sure to reset cursor state
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
-        
-        SceneManager.LoadScene("Menu");
-    }
-    
+   
+public void MainMenu()
+{
+    Time.timeScale = 1f;
+    GameIsPaused = false;
+    Cursor.lockState = CursorLockMode.None;
+    Cursor.visible = true;
+
+    string currentSceneName = SceneManager.GetActiveScene().name;
+    PlayerPrefs.SetString("LastPlayedScene", currentSceneName);
+    PlayerPrefs.SetInt("ReturnedToMenu", 1);
+    PlayerPrefs.Save();
+
+    Debug.Log("Saving scene name: " + currentSceneName);
+    Debug.Log("Set ReturnedToMenu to 1");
+
+    StartCoroutine(LoadMenuAfterDelay());
+}
+
+private IEnumerator LoadMenuAfterDelay()
+{
+    yield return new WaitForEndOfFrame(); // optional: wait to ensure save
+    SceneManager.LoadScene("Menu");
+}
+   
     public void QuitGame()
     {
-        Debug.Log("Quitting game...");
         Time.timeScale = 1f;
-        
+       
         #if UNITY_EDITOR
             UnityEditor.EditorApplication.isPlaying = false;
         #else
             Application.Quit();
         #endif
-    }
-    
-    // Optional: Method to check if game should accept input
-    public static bool ShouldAcceptInput()
-    {
-        return !GameIsPaused;
     }
 }
