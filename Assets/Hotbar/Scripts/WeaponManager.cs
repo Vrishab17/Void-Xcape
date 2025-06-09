@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 public class WeaponManager : MonoBehaviour
 {
-    public Transform weaponHolder;                 
-    public HotbarUIManager hotbarUI;               
-    public List<Sprite> weaponIcons;               
+    public Transform weaponHolder;
+    public HotbarUIManager hotbarUI;
+    public List<Sprite> weaponIcons;
 
     private List<GameObject> weapons = new List<GameObject>();
     private int currentWeaponIndex = 0;
@@ -22,31 +22,31 @@ public class WeaponManager : MonoBehaviour
 
     public void AddWeapon(GameObject weapon)
     {
-        weapon.transform.SetParent(weaponHolder, false);
         weapon.SetActive(false);
         weapons.Add(weapon);
 
         if (hotbarUI != null && weaponIcons.Count >= weapons.Count)
-        {
             hotbarUI.SetIcon(weapons.Count - 1, weaponIcons[weapons.Count - 1]);
-        }
 
         if (weapons.Count == 1)
-        {
             SelectWeapon(0);
-        }
     }
 
     void SelectWeapon(int index)
     {
         for (int i = 0; i < weapons.Count; i++)
         {
-            weapons[i].SetActive(i == index);
+            if (weapons[i] != null)
+            {
+                weapons[i].SetActive(i == index);
+            }
         }
 
         if (hotbarUI != null)
         {
             hotbarUI.UpdateHighlight(index);
         }
+
+        currentWeaponIndex = index;
     }
 }

@@ -3,8 +3,8 @@ using UnityEngine.UI;
 
 public class HotbarUIManager : MonoBehaviour
 {
-    public Image[] slotIcons;        
-    public GameObject[] highlights;   
+    public Image[] slotIcons;
+    public GameObject[] highlights;
 
     void Start()
     {

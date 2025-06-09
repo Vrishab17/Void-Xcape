@@ -1,21 +1,21 @@
 using UnityEngine;
 
-public class GunPickup : MonoBehaviour
+public class LightsaberPickup : MonoBehaviour
 {
-    public GameObject playerGun; // The gun in the scene
+    public GameObject lightsaberObject;
 
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            if (playerGun != null)
+            if (lightsaberObject != null)
             {
-                playerGun.SetActive(true);
+                lightsaberObject.SetActive(true);
 
                 WeaponManager wm = other.GetComponentInChildren<WeaponManager>();
                 if (wm != null)
                 {
-                    wm.AddWeapon(playerGun);
+                    wm.AddWeapon(lightsaberObject);
                 }
             }
 
