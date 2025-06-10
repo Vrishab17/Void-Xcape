@@ -392,8 +392,8 @@ MonoBehaviour:
     m_GlyphIndex: 32
     m_Scale: 1
   - m_ElementType: 1
-    m_Unicode: 101
-    m_GlyphIndex: 34
+    m_Unicode: 79
+    m_GlyphIndex: 18
     m_Scale: 1
   - m_ElementType: 1
     m_Unicode: 105
@@ -563,6 +563,30 @@ MonoBehaviour:
     m_Y: 146
     m_Width: 858
     m_Height: 877
+  - m_X: 235
+    m_Y: 256
+    m_Width: 15
+    m_Height: 76
+  - m_X: 74
+    m_Y: 415
+    m_Width: 949
+    m_Height: 608
+  - m_X: 74
+    m_Y: 395
+    m_Width: 161
+    m_Height: 628
+  - m_X: 309
+    m_Y: 332
+    m_Width: 16
+    m_Height: 691
+  - m_X: 309
+    m_Y: 375
+    m_Width: 714
+    m_Height: 648
+  - m_X: 195
+    m_Y: 341
+    m_Width: 40
+    m_Height: 682
   m_FontFeatureTable:
     m_MultipleSubstitutionRecords: []
     m_LigatureSubstitutionRecords: []

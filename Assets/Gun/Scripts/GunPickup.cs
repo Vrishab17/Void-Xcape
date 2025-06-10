@@ -9,9 +9,18 @@ public class GunPickup : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             if (playerGun != null)
-                playerGun.SetActive(true); // Show the held gun
+                playerGun.SetActive(true);
+
+            
+            ObjectiveManager manager = FindObjectOfType<ObjectiveManager>();
+            if (manager != null)
+                manager.CompleteCurrentObjective();
+
+            {
+                playerGun.SetActive(true);
 
             Destroy(gameObject); // Remove pickup model from floor
         }
     }
+}
 }
