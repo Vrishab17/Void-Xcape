@@ -284,7 +284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d37bed3204a454f26908947cbd28e793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneName: Level 1
+  nextSceneName: Level 1 audio clone
 --- !u!4 &320031462
 Transform:
   m_ObjectHideFlags: 0
@@ -1833,7 +1833,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
   m_PlayOnAwake: 1
-  m_Volume: 1
+  m_Volume: 0.7
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -2020,6 +2020,10 @@ PrefabInstance:
     - target: {fileID: 4967222963106937879, guid: 479baa1924cff42acbc6e3b9513c22e8, type: 3}
       propertyPath: fadeInDelay
       value: 0.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4967222963106937879, guid: 479baa1924cff42acbc6e3b9513c22e8, type: 3}
+      propertyPath: sceneToLoad
+      value: Level 1 audio clone
       objectReference: {fileID: 0}
     - target: {fileID: 4967222963106937879, guid: 479baa1924cff42acbc6e3b9513c22e8, type: 3}
       propertyPath: enableFadeIn
