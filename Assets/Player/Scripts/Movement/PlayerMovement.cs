@@ -60,7 +60,8 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (InventoryInput.BlockNextInput || InventoryInput.InventoryOpen)
+        // Check for pause state first, then inventory
+        if (PauseMenu.GameIsPaused || InventoryInput.BlockNextInput || InventoryInput.InventoryOpen)
             return;
 
         float moveZ = Input.GetAxis("Vertical");

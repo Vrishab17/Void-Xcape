@@ -1474,6 +1474,12 @@ MonoBehaviour:
   damageAmount: 5
   wanderRadius: 20
   wanderInterval: 8
+  WALKClip: {fileID: 8300000, guid: 6b7628f8c05047a4fbef52fe3ed4729d, type: 3}
+  YELLClip: {fileID: 0}
+  ATTACKClip: {fileID: 8300000, guid: a32d5782bff25a4499a1ba4aa9d0c173, type: 3}
+  walkStepInterval: 0.5
+  chaseStepInterval: 0.3
+  yellInterval: 4
   health: 100
 --- !u!195 &4304937789842257443
 NavMeshAgent:
@@ -1535,6 +1541,9 @@ MonoBehaviour:
   maxHealth: 20
   textSpawner: {fileID: 4269167948587993856}
   coinValue: 15
+  isDead: 0
+  HITClip: {fileID: 0}
+  DEADClip: {fileID: 0}
 --- !u!114 &8091860277818071579
 MonoBehaviour:
   m_ObjectHideFlags: 0
