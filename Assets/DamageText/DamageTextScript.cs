@@ -11,13 +11,14 @@ public class DamageTextSpawner : MonoBehaviour
         // Automatically assign the canvas if not set in the Inspector
         if (worldCanvas == null)
         {
-            worldCanvas = FindObjectOfType<Canvas>();
+            worldCanvas = FindFirstObjectByType<Canvas>();
             if (worldCanvas == null)
             {
                 Debug.LogError("No Canvas found in the scene. Please assign one to DamageTextSpawner.");
             }
         }
     }
+
 
     public void ShowDamage(float amount, Vector3 hitPosition)
     {
