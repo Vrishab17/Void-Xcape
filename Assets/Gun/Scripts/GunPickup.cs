@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GunPickup : MonoBehaviour
 {
-    public GameObject playerGun; // The gun in the scene
+    public GameObject playerGun; // The gun in the player's hands
 
     void OnTriggerEnter(Collider other)
     {
@@ -19,14 +19,7 @@ public class GunPickup : MonoBehaviour
             {
                 playerGun.SetActive(true);
 
-                WeaponManager wm = other.GetComponentInChildren<WeaponManager>();
-                if (wm != null)
-                {
-                    wm.AddWeapon(playerGun);
-                }
-            }
-
-            Destroy(gameObject);
+            Destroy(gameObject); // Remove pickup model from floor
         }
     }
 }
