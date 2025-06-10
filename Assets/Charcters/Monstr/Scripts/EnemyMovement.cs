@@ -197,6 +197,11 @@ public class EnemyAI : MonoBehaviour
     {
         if (isDead) return;
         isDead = true;
+        EnemyDrop drop = GetComponent<EnemyDrop>();
+        if (drop != null)
+        {
+            drop.DropItem(transform.position);
+        }   
 
         agent.isStopped = true;
         agent.velocity = Vector3.zero;
