@@ -3,14 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
+public enum ObjectiveType
+{
+    Basic,
+    KillEnemies,
+    KillBoss,
+    CollectKeycards
+}
+
 public class ObjectiveManager : MonoBehaviour
 {
     [System.Serializable]
     public class Objective
     {
         public string description;
+        public ObjectiveType type = ObjectiveType.Basic;
         public bool isComplete = false;
-        public bool showEnemyCount = false;
     }
 
     public List<Objective> objectives = new List<Objective>();
@@ -51,28 +59,37 @@ public class ObjectiveManager : MonoBehaviour
         if (currentIndex >= objectives.Count) return;
 
         currentSlot = Instantiate(objectiveSlotPrefab, objectiveParent);
-
         ObjectiveSlot slot = currentSlot.GetComponent<ObjectiveSlot>();
+
         if (slot != null)
-{
-    var obj = objectives[currentIndex];
+        {
+            var obj = objectives[currentIndex];
 
-        if (obj.showEnemyCount)
-        {
-            slot.objectiveText.text = $"{obj.description} (0/6)";
-        }
-        else if (currentIndex == 0 && ItemCollectionTracker.Instance != null)
-        {
-            int current = ItemCollectionTracker.Instance.GetCollectedCount();
-            int total = ItemCollectionTracker.Instance.requiredCount;
-            slot.objectiveText.text = $"Find key cards ({current}/{total})";
-        }
-        else
-        {
-            slot.objectiveText.text = obj.description;
-        }
+            switch (obj.type)
+            {
+                case ObjectiveType.CollectKeycards:
+                    if (ItemCollectionTracker.Instance != null)
+                    {
+                        int current = ItemCollectionTracker.Instance.GetCollectedCount();
+                        int total = ItemCollectionTracker.Instance.requiredCount;
+                        slot.objectiveText.text = $"Find key cards ({current}/{total})";
+                    }
+                    else
+                    {
+                        slot.objectiveText.text = obj.description;
+                    }
+                    break;
 
-        slot.checkBoxImage.sprite = slot.emptyCheckboxSprite;
+                case ObjectiveType.KillEnemies:
+                    slot.objectiveText.text = $"{obj.description} (0/6)";
+                    break;
+
+                default:
+                    slot.objectiveText.text = obj.description;
+                    break;
+            }
+
+            slot.checkBoxImage.sprite = slot.emptyCheckboxSprite;
         }
 
         // Optional fade-in setup

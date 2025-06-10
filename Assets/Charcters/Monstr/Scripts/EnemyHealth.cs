@@ -11,6 +11,7 @@ public class EnemyHealth : MonoBehaviour
     private bool isDead = false;
 
     private static int enemiesKilled = 0;
+    public bool isBoss = false;
 
     void Start()
     {
@@ -42,62 +43,66 @@ public class EnemyHealth : MonoBehaviour
     }
 
     void Die()
+{
+    if (isDead) return;
+
+    isDead = true;
+
+    var agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+    if (agent != null && agent.isOnNavMesh)
     {
-        if (isDead) return;
+        agent.isStopped = true;
+    }
 
-        isDead = true;
+    var collider = GetComponent<Collider>();
+    if (collider != null)
+    {
+        collider.enabled = false;
+    }
 
-        var agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        if (agent != null && agent.isOnNavMesh)
+    if (animator != null)
+    {
+        animator.SetTrigger("Die");
+    }
+
+    if (CoinManager.Instance != null)
+    {
+        CoinManager.Instance.AddCoins(coinValue);
+    }
+
+    var mgr = FindFirstObjectByType<ObjectiveManager>();
+    if (mgr != null)
+    {
+        var current = mgr.GetCurrentObjective();
+        var slot = mgr.GetCurrentSlot();
+
+        if (current != null)
         {
-            agent.isStopped = true;
-        }
-
-        var collider = GetComponent<Collider>();
-        if (collider != null)
-        {
-            collider.enabled = false;
-        }
-
-        if (animator != null)
-        {
-            animator.SetTrigger("Die");
-        }
-
-        if (CoinManager.Instance != null)
-        {
-            CoinManager.Instance.AddCoins(coinValue);
-        }
-
-        var mgr = FindFirstObjectByType<ObjectiveManager>();
-        if (mgr != null)
-        {
-            if (!CompareTag("Boss"))
+            // ✅ Handle regular enemy kill
+            if (!CompareTag("Boss") && current.type == ObjectiveType.KillEnemies)
             {
                 enemiesKilled++;
 
-                if (mgr.GetCurrentIndex() == 1)
+                if (slot != null)
                 {
-                    var current = mgr.GetCurrentObjective();
-                    var slot = mgr.GetCurrentSlot();
+                    slot.objectiveText.text = $"{current.description} ({enemiesKilled}/6)";
+                }
 
-                    if (current != null && slot != null)
-                    {
-                        slot.objectiveText.text = $"{current.description} ({enemiesKilled}/6)";
-                    }
-
-                    if (enemiesKilled >= 6)
-                    {
-                        mgr.CompleteCurrentObjective();
-                    }
+                if (enemiesKilled >= 6)
+                {
+                    mgr.CompleteCurrentObjective();
                 }
             }
-            else if (CompareTag("Boss") && mgr.GetCurrentIndex() == 2)
+
+            // ✅ Handle boss kill
+            else if (CompareTag("Boss") && current.type == ObjectiveType.KillBoss)
             {
                 mgr.CompleteCurrentObjective();
             }
         }
-
-        Destroy(gameObject, 3f);
     }
+
+    Destroy(gameObject, 3f);
+}
+
 }
