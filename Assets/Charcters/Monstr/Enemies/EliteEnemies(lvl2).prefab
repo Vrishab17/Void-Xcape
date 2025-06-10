@@ -1222,7 +1222,6 @@ GameObject:
   - component: {fileID: 5608183562750563849}
   - component: {fileID: 4068171534781862445}
   - component: {fileID: 2239719156496439169}
-  - component: {fileID: 5097365689800136423}
   m_Layer: 0
   m_Name: EliteEnemies(lvl2)
   m_TagString: Untagged
@@ -1261,7 +1260,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: f6482d4ee17f77042b91e0a421b67d08, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
-  m_ApplyRootMotion: 0
+  m_ApplyRootMotion: 1
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 1
@@ -1288,9 +1287,6 @@ MonoBehaviour:
   detectionRange: 30
   attackRange: 2
   giveUpRange: 10
-  runSpeed: 6
-  walkSpeed: 2
-  acceleration: 80
   damageAmount: 10
   wanderRadius: 20
   wanderInterval: 8
@@ -1352,9 +1348,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0059a1b19bb3c4a36898a7d8c93a23f3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 50
-  textSpawner: {fileID: 5097365689800136423}
-  coinValue: 15
+  maxHealth: 100
+  coinValue: 5
 --- !u!114 &2239719156496439169
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1374,20 +1369,6 @@ MonoBehaviour:
   initialIconRotation: 0
   clampIconInBorder: 1
   clampDistance: 20
---- !u!114 &5097365689800136423
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1845925920878454455}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3d82dc5c8061ae14987d9cc17d2db666, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  damageTextPrefab: {fileID: 9182714089173834357, guid: 3c73d66eec3632c45bc47026aad69ab3, type: 3}
-  worldCanvas: {fileID: 0}
 --- !u!1 &1852975710072464200
 GameObject:
   m_ObjectHideFlags: 0

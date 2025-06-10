@@ -6,7 +6,6 @@ TagManager:
   tags:
   - Pickup
   - Button
-  - Boss
   layers:
   - Default
   - TransparentFX

@@ -18,18 +18,9 @@ public class GunPickup : MonoBehaviour
             }
             
             if (playerGun != null)
-                playerGun.SetActive(true);
-
-            
-            ObjectiveManager manager = FindObjectOfType<ObjectiveManager>();
-            if (manager != null)
-                manager.CompleteCurrentObjective();
-
-            {
-                playerGun.SetActive(true);
-
+                playerGun.SetActive(true); // Show the held gun
+                
             Destroy(gameObject); // Remove pickup model from floor
         }
     }
-}
 }
