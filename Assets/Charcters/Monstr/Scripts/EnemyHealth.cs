@@ -13,6 +13,7 @@ public class EnemyHealth : MonoBehaviour
     [Header("Audio Settings")]
     [SerializeField] private AudioClip HITClip;
     [SerializeField] private AudioClip DEADClip;
+    private static int enemiesKilled = 0;
 
     void Start()
     {
@@ -56,7 +57,9 @@ public class EnemyHealth : MonoBehaviour
 
         isDead = true;
         // DEADClip
+        var agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         SFXManager.instance.PlayClip(DEADClip, transform);
+        
 
         // Stop NavMeshAgent if possible
         UnityEngine.AI.NavMeshAgent agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
@@ -67,6 +70,7 @@ public class EnemyHealth : MonoBehaviour
 
         // Disable collider
         Collider collider = GetComponent<Collider>();
+        var collider = GetComponent<Collider>();
         if (collider != null)
         {
             collider.enabled = false;
@@ -84,7 +88,35 @@ public class EnemyHealth : MonoBehaviour
             CoinManager.Instance.AddCoins(coinValue);
         }
 
-        // Delay destroy to let death animation play
+        var mgr = FindFirstObjectByType<ObjectiveManager>();
+        if (mgr != null)
+        {
+            if (!CompareTag("Boss"))
+            {
+                enemiesKilled++;
+
+                if (mgr.GetCurrentIndex() == 1)
+                {
+                    var current = mgr.GetCurrentObjective();
+                    var slot = mgr.GetCurrentSlot();
+
+                    if (current != null && slot != null)
+                    {
+                        slot.objectiveText.text = $"{current.description} ({enemiesKilled}/6)";
+                    }
+
+                    if (enemiesKilled >= 6)
+                    {
+                        mgr.CompleteCurrentObjective();
+                    }
+                }
+            }
+            else if (CompareTag("Boss") && mgr.GetCurrentIndex() == 2)
+            {
+                mgr.CompleteCurrentObjective();
+            }
+        }
+
         Destroy(gameObject, 3f);
     }
 }

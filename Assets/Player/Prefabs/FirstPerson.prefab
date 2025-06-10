@@ -930,8 +930,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  maxArmour: 100
   currentHealth: 0
+  currentArmour: 0
   healthSlider: {fileID: 8119905392943720503}
+  armourSlider: {fileID: 0}
   deathScreen: {fileID: 5403585981270742720}
   respawnDelay: 3
   respawnPoint: {fileID: 0}
@@ -1323,7 +1326,8 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 5261884896177251693}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 7814602666351925483, guid: c3001cf5ab21f4a959c4be2fdcd10559, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c3001cf5ab21f4a959c4be2fdcd10559, type: 3}

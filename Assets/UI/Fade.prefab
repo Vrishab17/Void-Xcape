@@ -61,7 +61,7 @@ Canvas:
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 100
   m_TargetDisplay: 0
 --- !u!114 &8545339786242059046
 MonoBehaviour:
@@ -118,6 +118,7 @@ MonoBehaviour:
   fadeGroup: {fileID: 2225037514017951395}
   storyPanel: {fileID: 0}
   sceneToLoad: Level 1
+  loadNextSceneByIndex: 0
   fadeInDuration: 1
   fadeOutDuration: 1
   fadeInDelay: 0.5
