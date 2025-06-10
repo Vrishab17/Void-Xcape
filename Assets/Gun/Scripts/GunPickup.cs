@@ -9,13 +9,6 @@ public class GunPickup : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             if (playerGun != null)
-                playerGun.SetActive(true);
-
-            
-            ObjectiveManager manager = FindObjectOfType<ObjectiveManager>();
-            if (manager != null)
-                manager.CompleteCurrentObjective();
-
             {
                 playerGun.SetActive(true);
 
