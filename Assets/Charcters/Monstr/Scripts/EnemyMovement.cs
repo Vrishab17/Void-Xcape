@@ -6,6 +6,7 @@ public class EnemyAI : MonoBehaviour
     [Header("References")]
     public GameObject enemyBodyModel;
     public Transform player;
+    public int coinValue = 5;
 
     private PlayerHealth playerHealth;
     private Animator animator;
@@ -29,10 +30,6 @@ public class EnemyAI : MonoBehaviour
     public float wanderRadius = 15f;
     public float wanderInterval = 5f;
 
-    private float wanderTimer;
-    private bool isChasing = false;
-    private bool isAttackingState = false;
-
     [Header("Audio Settings")]
     [SerializeField] private AudioClip WALKClip;
     [SerializeField] private AudioClip YELLClip;
@@ -41,11 +38,16 @@ public class EnemyAI : MonoBehaviour
     [SerializeField] private float chaseStepInterval = 0.3f;
     [SerializeField] private float yellInterval = 3f;
 
+    private float wanderTimer;
     private float walkStepTimer = 0f;
     private float yellTimer = 0f;
-    private bool hasYelledOnDetection = false;
+    private bool isChasing = false;
+    private bool isAttackingState = false;
     private bool isCurrentlyAttacking = false;
-    private bool wasChasing = false;
+    private bool hasYelledOnDetection = false;
+    private bool isDead = false;
+
+    public int health = 100;
 
     private void Start()
     {
@@ -69,7 +71,7 @@ public class EnemyAI : MonoBehaviour
 
     private void Update()
     {
-        if (player == null || animator == null)
+        if (player == null || animator == null || isDead)
             return;
 
         if (enemyHealth != null && enemyHealth.isDead)
@@ -84,9 +86,6 @@ public class EnemyAI : MonoBehaviour
 
         float distance = Vector3.Distance(transform.position, player.position);
         bool inAttackRange = distance <= attackRange;
-
-        wasChasing = isChasing;
-        bool wasAttacking = isCurrentlyAttacking;
 
         if (!inAttackRange && animator.GetBool("IsAttacking"))
             animator.SetBool("IsAttacking", false);
@@ -110,7 +109,7 @@ public class EnemyAI : MonoBehaviour
                 animator.SetBool("IsRunning", true);
             }
 
-            if (agent.enabled)
+            if (!isDead && agent.enabled)
                 animator.SetFloat("Speed", agent.velocity.magnitude);
         }
 
@@ -128,22 +127,31 @@ public class EnemyAI : MonoBehaviour
         }
         else if (distance <= detectionRange)
         {
-            isChasing = true;
-            isCurrentlyAttacking = false;
-            agent.isStopped = false;
-            agent.speed = runSpeed;
-            agent.SetDestination(player.position);
+            Vector3 directionToPlayer = (player.position - transform.position).normalized;
+            Ray ray = new Ray(transform.position + Vector3.up * 1.5f, directionToPlayer);
 
-            animator.SetBool("IsDetected", true);
-            animator.SetBool("IsRunning", true);
-            animator.SetBool("IsAttacking", false);
-            animator.SetBool("IsWalking", false);
-
-            if (!wasChasing && !hasYelledOnDetection)
+            if (Physics.Raycast(ray, out RaycastHit hit, detectionRange))
             {
-                TriggerYell();
-                hasYelledOnDetection = true;
-                yellTimer = yellInterval;
+                if (hit.transform == player)
+                {
+                    isChasing = true;
+                    isCurrentlyAttacking = false;
+                    agent.isStopped = false;
+                    agent.speed = runSpeed;
+                    agent.SetDestination(player.position);
+
+                    animator.SetBool("IsDetected", true);
+                    animator.SetBool("IsRunning", true);
+                    animator.SetBool("IsAttacking", false);
+                    animator.SetBool("IsWalking", false);
+
+                    if (!hasYelledOnDetection)
+                    {
+                        TriggerYell();
+                        hasYelledOnDetection = true;
+                        yellTimer = yellInterval;
+                    }
+                }
             }
         }
         else if (isChasing && distance > giveUpRange)
@@ -296,5 +304,31 @@ public class EnemyAI : MonoBehaviour
             SFXManager.instance.PlayClip(YELLClip, transform);
         }
     }
-}
 
+    public void TakeDamage(int amount)
+    {
+        health -= amount;
+        if (health <= 0)
+            Die();
+    }
+
+    public void Die()
+    {
+        if (isDead) return;
+        isDead = true;
+
+
+        StopMovement();
+        animator.SetFloat("Speed", 0f);
+        animator.SetTrigger("Die");
+
+        Collider col = GetComponent<Collider>();
+        if (col != null)
+            col.enabled = false;
+
+        if (CoinManager.Instance != null)
+            CoinManager.Instance.AddCoins(coinValue);
+
+        Destroy(gameObject, 3f);
+    }
+}

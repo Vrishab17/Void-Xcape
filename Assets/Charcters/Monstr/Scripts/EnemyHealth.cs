@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyHealth : MonoBehaviour
 {
@@ -53,23 +54,23 @@ public class EnemyHealth : MonoBehaviour
 
     void Die()
     {
-        if (isDead) return; // Prevent multiple deaths
-
+        if (isDead) return;
         isDead = true;
-        // DEADClip
-        var agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        SFXManager.instance.PlayClip(DEADClip, transform);
-        
 
-        // Stop NavMeshAgent if possible
-        UnityEngine.AI.NavMeshAgent agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        // Play death sound
+        if (SFXManager.instance != null && DEADClip != null)
+        {
+            SFXManager.instance.PlayClip(DEADClip, transform);
+        }
+
+        // Stop NavMeshAgent if present
+        var agent = GetComponent<NavMeshAgent>();
         if (agent != null && agent.isOnNavMesh)
         {
             agent.isStopped = true;
         }
 
         // Disable collider
-        Collider collider = GetComponent<Collider>();
         var collider = GetComponent<Collider>();
         if (collider != null)
         {
@@ -88,6 +89,7 @@ public class EnemyHealth : MonoBehaviour
             CoinManager.Instance.AddCoins(coinValue);
         }
 
+        // Objective handling
         var mgr = FindFirstObjectByType<ObjectiveManager>();
         if (mgr != null)
         {
@@ -117,6 +119,7 @@ public class EnemyHealth : MonoBehaviour
             }
         }
 
+        // Destroy enemy after delay
         Destroy(gameObject, 3f);
     }
 }
