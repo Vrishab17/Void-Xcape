@@ -24,6 +24,7 @@ public class ObjectiveManager : MonoBehaviour
     public List<Objective> objectives = new List<Objective>();
     public GameObject objectiveSlotPrefab;
     public Transform objectiveParent;
+    
 
     private GameObject currentSlot;
     private int currentIndex = 0;
