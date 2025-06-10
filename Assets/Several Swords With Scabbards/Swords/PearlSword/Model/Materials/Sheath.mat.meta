@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: fc6d236eaedb07842ad7dc19dc7b387b
+timeCreated: 1529693045
+licenseType: Store
+NativeFormatImporter:
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 121182
+  packageName: Several Swords With Scabbards
+  packageVersion: 1.0
+  assetPath: Assets/Several Swords With Scabbards/Swords/PearlSword/Model/Materials/Sheath.mat
+  uploadId: 255285

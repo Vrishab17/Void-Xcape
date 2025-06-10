@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class GunPickup : MonoBehaviour
 {
-    public GameObject playerGun;
+    public GameObject playerGun; // The gun in the scene
 
     void OnTriggerEnter(Collider other)
     {
@@ -15,6 +15,16 @@ public class GunPickup : MonoBehaviour
             ObjectiveManager manager = FindObjectOfType<ObjectiveManager>();
             if (manager != null)
                 manager.CompleteCurrentObjective();
+
+            {
+                playerGun.SetActive(true);
+
+                WeaponManager wm = other.GetComponentInChildren<WeaponManager>();
+                if (wm != null)
+                {
+                    wm.AddWeapon(playerGun);
+                }
+            }
 
             Destroy(gameObject);
         }
