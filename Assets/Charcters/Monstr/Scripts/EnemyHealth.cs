@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.AI;
 
 public class EnemyHealth : MonoBehaviour
 {
@@ -14,7 +13,6 @@ public class EnemyHealth : MonoBehaviour
     [Header("Audio Settings")]
     [SerializeField] private AudioClip HITClip;
     [SerializeField] private AudioClip DEADClip;
-
     private static int enemiesKilled = 0;
 
     void Start()
@@ -55,24 +53,23 @@ public class EnemyHealth : MonoBehaviour
 
     void Die()
     {
-        if (isDead) return;
+        if (isDead) return; // Prevent multiple deaths
 
         isDead = true;
+        // DEADClip
+        var agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        SFXManager.instance.PlayClip(DEADClip, transform);
+        
 
-        // Stop NavMeshAgent
-        var agent = GetComponent<NavMeshAgent>();
+        // Stop NavMeshAgent if possible
+        UnityEngine.AI.NavMeshAgent agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         if (agent != null && agent.isOnNavMesh)
         {
             agent.isStopped = true;
         }
 
-        // Play death sound
-        if (SFXManager.instance != null && DEADClip != null)
-        {
-            SFXManager.instance.PlayClip(DEADClip, transform);
-        }
-
         // Disable collider
+        Collider collider = GetComponent<Collider>();
         var collider = GetComponent<Collider>();
         if (collider != null)
         {
@@ -91,7 +88,6 @@ public class EnemyHealth : MonoBehaviour
             CoinManager.Instance.AddCoins(coinValue);
         }
 
-        // Update objective progress
         var mgr = FindFirstObjectByType<ObjectiveManager>();
         if (mgr != null)
         {
