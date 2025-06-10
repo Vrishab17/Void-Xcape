@@ -6,14 +6,11 @@ public class PlayerHealth : MonoBehaviour
 {
     [Header("Health Settings")]
     public float maxHealth = 100f;
-    public float maxArmour = 100f;
     public float currentHealth;
-    public float currentArmour;
     private bool isDead = false;
 
     [Header("UI")]
     public Slider healthSlider;
-    public Slider armourSlider;
     public GameObject deathScreen;
 
     [Header("Respawn Settings")]
@@ -32,9 +29,7 @@ public class PlayerHealth : MonoBehaviour
     void Start()
     {
         currentHealth = maxHealth;
-        currentArmour = 0f;
         UpdateHealthUI();
-        UpdateArmourUI();
 
         if (deathScreen != null)
             deathScreen.SetActive(false);
@@ -47,38 +42,18 @@ public class PlayerHealth : MonoBehaviour
     }
 
     public void TakeDamage(float amount)
-{
-    if (isDead) return;
-
-    if (currentArmour > 0)
     {
-        float armourDamage = Mathf.Min(currentArmour, amount);
-        currentArmour -= armourDamage;
-        amount -= armourDamage;
-        UpdateArmourUI();
-    }
+        if (isDead) return;
 
-    if (amount > 0)
-    {
         currentHealth -= amount;
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
         UpdateHealthUI();
+
+        if (currentHealth <= 0f)
+        {
+            Die();
+        }
     }
-
-    if (currentHealth <= 0f)
-    {
-        Die();
-    }
-}
-    public void AddArmour(float amount)
-{
-    if (isDead) return;
-
-    currentArmour += amount;
-    currentArmour = Mathf.Clamp(currentArmour, 0f, maxArmour);
-    UpdateArmourUI();
-}
-
 
     public void Heal(float amount)
     {
@@ -94,13 +69,6 @@ public class PlayerHealth : MonoBehaviour
         if (healthSlider != null)
             healthSlider.value = currentHealth / maxHealth;
     }
-
-    void UpdateArmourUI()
-{
-    if (armourSlider != null)
-        armourSlider.value = currentArmour / maxArmour;
-}
-
 
 void Die()
 {
