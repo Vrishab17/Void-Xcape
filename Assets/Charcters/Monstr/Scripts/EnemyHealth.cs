@@ -53,6 +53,7 @@ public class EnemyHealth : MonoBehaviour
     }
 
     void Die()
+
     {
         if (isDead) return;
         isDead = true;
@@ -93,33 +94,35 @@ public class EnemyHealth : MonoBehaviour
         var mgr = FindFirstObjectByType<ObjectiveManager>();
         if (mgr != null)
         {
-            if (!CompareTag("Boss"))
+            
+            if (!CompareTag("Boss") && current.type == ObjectiveType.KillEnemies)
             {
                 enemiesKilled++;
 
-                if (mgr.GetCurrentIndex() == 1)
+                if (slot != null)
                 {
-                    var current = mgr.GetCurrentObjective();
-                    var slot = mgr.GetCurrentSlot();
+                    slot.objectiveText.text = $"{current.description} ({enemiesKilled}/6)";
+                }
 
-                    if (current != null && slot != null)
-                    {
-                        slot.objectiveText.text = $"{current.description} ({enemiesKilled}/6)";
-                    }
-
-                    if (enemiesKilled >= 6)
-                    {
-                        mgr.CompleteCurrentObjective();
-                    }
+                if (enemiesKilled >= 6)
+                {
+                    mgr.CompleteCurrentObjective();
                 }
             }
-            else if (CompareTag("Boss") && mgr.GetCurrentIndex() == 2)
+
+            
+            else if (CompareTag("Boss") && current.type == ObjectiveType.KillBoss)
             {
                 mgr.CompleteCurrentObjective();
             }
         }
 
+
         // Destroy enemy after delay
         Destroy(gameObject, 3f);
     }
+
+    Destroy(gameObject, 3f);
+}
+
 }

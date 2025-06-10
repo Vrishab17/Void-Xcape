@@ -259,7 +259,19 @@ public class EnemyAI : MonoBehaviour
         if (enemyHealth != null && enemyHealth.isDead)
             return;
 
+
+    public void Die()
+    {
+        if (isDead) return;
+        isDead = true;
+        EnemyDrop drop = GetComponent<EnemyDrop>();
+        if (drop != null)
+        {
+            drop.DropItem(transform.position);
+        }   
+
         bool isMoving = agent.velocity.magnitude > 0.1f;
+
 
         if (isMoving && WALKClip != null && SFXManager.instance != null)
         {

@@ -148,15 +148,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   objectives:
-  - description: Pick up Gun
+  - description: Find batteries
+    type: 3
     isComplete: 0
-  - description: Defeat Enemies
+  - description: Defeat the final Boss
+    type: 2
     isComplete: 0
-  - description: Defeat Beetle King
-    isComplete: 0
-  - description: Solve the Puzzle
-    isComplete: 0
-  - description: Enter the Elevator to Level 2
+  - description: Escape!!!!
+    type: 0
     isComplete: 0
   objectiveSlotPrefab: {fileID: 8836237148029345608}
   objectiveParent: {fileID: 7423318700225926034}
