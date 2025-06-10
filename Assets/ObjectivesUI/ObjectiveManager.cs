@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using TMPro;
 
 public class ObjectiveManager : MonoBehaviour
@@ -11,6 +10,7 @@ public class ObjectiveManager : MonoBehaviour
     {
         public string description;
         public bool isComplete = false;
+        public bool showEnemyCount = false;
     }
 
     public List<Objective> objectives = new List<Objective>();
@@ -54,18 +54,25 @@ public class ObjectiveManager : MonoBehaviour
 
         ObjectiveSlot slot = currentSlot.GetComponent<ObjectiveSlot>();
         if (slot != null)
-        {
-            // Special case for dynamic tracking (e.g. Defeat enemies objective)
-            if (currentIndex == 1) // index 1 = Defeat enemies
-            {
-                slot.objectiveText.text = $"{objectives[currentIndex].description} (0/6)";
-            }
-            else
-            {
-                slot.objectiveText.text = objectives[currentIndex].description;
-            }
+{
+    var obj = objectives[currentIndex];
 
-            slot.checkBoxImage.sprite = slot.emptyCheckboxSprite;
+        if (obj.showEnemyCount)
+        {
+            slot.objectiveText.text = $"{obj.description} (0/6)";
+        }
+        else if (currentIndex == 0 && ItemCollectionTracker.Instance != null)
+        {
+            int current = ItemCollectionTracker.Instance.GetCollectedCount();
+            int total = ItemCollectionTracker.Instance.requiredCount;
+            slot.objectiveText.text = $"Find key cards ({current}/{total})";
+        }
+        else
+        {
+            slot.objectiveText.text = obj.description;
+        }
+
+        slot.checkBoxImage.sprite = slot.emptyCheckboxSprite;
         }
 
         // Optional fade-in setup
