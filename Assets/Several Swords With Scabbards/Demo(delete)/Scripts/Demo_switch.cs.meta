@@ -1,0 +1,18 @@
+fileFormatVersion: 2
+guid: 4c8dfa3a7843d404ebc52ed53c40e625
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences: []
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 121182
+  packageName: Several Swords With Scabbards
+  packageVersion: 1.0
+  assetPath: Assets/Several Swords With Scabbards/Demo(delete)/Scripts/Demo_switch.cs
+  uploadId: 255285
