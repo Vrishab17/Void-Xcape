@@ -7,8 +7,6 @@ public class SceneFader : MonoBehaviour
     public CanvasGroup fadeGroup;
     public GameObject storyPanel; 
     public string sceneToLoad = "Level 1";
-    public bool loadNextSceneByIndex = false;
-
 
     [Header("Fade Durations")]
     public float fadeInDuration = 1f;
@@ -65,15 +63,6 @@ public class SceneFader : MonoBehaviour
         }
 
         fadeGroup.alpha = 1f;
-        if (loadNextSceneByIndex)
-        {
-            int nextIndex = SceneManager.GetActiveScene().buildIndex + 1;
-            SceneManager.LoadScene(nextIndex);
-        }
-        else
-        {
-            SceneManager.LoadScene(sceneToLoad);
-        }
-
+        SceneManager.LoadScene(sceneToLoad);
     }
 }
