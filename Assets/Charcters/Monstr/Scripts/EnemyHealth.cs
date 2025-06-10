@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnemyHealth : MonoBehaviour
 {
@@ -8,8 +9,11 @@ public class EnemyHealth : MonoBehaviour
 
     public int coinValue = 5;
     private Animator animator;
-    private bool isDead = false;
+    public bool isDead = false;
 
+    [Header("Audio Settings")]
+    [SerializeField] private AudioClip HITClip;
+    [SerializeField] private AudioClip DEADClip;
     private static int enemiesKilled = 0;
 
     void Start()
@@ -29,6 +33,13 @@ public class EnemyHealth : MonoBehaviour
 
         currentHealth -= amount;
 
+        // Play hit sound
+        if (SFXManager.instance != null && HITClip != null)
+        {
+            SFXManager.instance.PlayClip(HITClip, transform);
+        }
+
+        // Show damage number
         if (textSpawner != null)
         {
             Vector3 hitPosition = transform.position + Vector3.up * 2f;
@@ -44,31 +55,41 @@ public class EnemyHealth : MonoBehaviour
     void Die()
     {
         if (isDead) return;
-
         isDead = true;
 
-        var agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        // Play death sound
+        if (SFXManager.instance != null && DEADClip != null)
+        {
+            SFXManager.instance.PlayClip(DEADClip, transform);
+        }
+
+        // Stop NavMeshAgent if present
+        var agent = GetComponent<NavMeshAgent>();
         if (agent != null && agent.isOnNavMesh)
         {
             agent.isStopped = true;
         }
 
+        // Disable collider
         var collider = GetComponent<Collider>();
         if (collider != null)
         {
             collider.enabled = false;
         }
 
+        // Trigger death animation
         if (animator != null)
         {
             animator.SetTrigger("Die");
         }
 
+        // Add coins
         if (CoinManager.Instance != null)
         {
             CoinManager.Instance.AddCoins(coinValue);
         }
 
+        // Objective handling
         var mgr = FindFirstObjectByType<ObjectiveManager>();
         if (mgr != null)
         {
@@ -98,6 +119,7 @@ public class EnemyHealth : MonoBehaviour
             }
         }
 
+        // Destroy enemy after delay
         Destroy(gameObject, 3f);
     }
 }

@@ -2154,13 +2154,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyBodyModel: {fileID: 7920117466516201699}
-  player: {fileID: 0}
+  player: {fileID: 4687704808250968065, guid: 2fc29175ce8dd481e8becf8c4b556a5f, type: 3}
   detectionRange: 10
   attackRange: 2
   giveUpRange: 10
+  runSpeed: 6
+  walkSpeed: 2
+  acceleration: 80
   damageAmount: 5
   wanderRadius: 20
   wanderInterval: 8
+  WALKClip: {fileID: 0}
+  YELLClip: {fileID: 0}
+  ATTACKClip: {fileID: 0}
+  walkStepInterval: 0.5
+  chaseStepInterval: 0.3
+  yellInterval: 3
 --- !u!195 &4809334124183213908
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -2219,6 +2228,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
+  textSpawner: {fileID: 0}
+  coinValue: 5
+  isDead: 0
 --- !u!1 &8226585350444912228
 GameObject:
   m_ObjectHideFlags: 0

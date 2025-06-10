@@ -3232,6 +3232,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MainAudioMixer: {fileID: 24100000, guid: 73b96a78d17ad494a9f8f77404b61120, type: 2}
+  playButtonText: {fileID: 2058550596}
 --- !u!4 &1575158539
 Transform:
   m_ObjectHideFlags: 0
