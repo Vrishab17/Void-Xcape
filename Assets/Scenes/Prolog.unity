@@ -2023,7 +2023,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4967222963106937879, guid: 479baa1924cff42acbc6e3b9513c22e8, type: 3}
       propertyPath: sceneToLoad
-      value: Level 1 audio clone
+      value: Level 1
       objectReference: {fileID: 0}
     - target: {fileID: 4967222963106937879, guid: 479baa1924cff42acbc6e3b9513c22e8, type: 3}
       propertyPath: enableFadeIn
