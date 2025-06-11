@@ -6,6 +6,7 @@ public class EnemyHealth : MonoBehaviour
     public float maxHealth = 100f;
     private float currentHealth;
     public DamageTextSpawner textSpawner;
+    [SerializeField] GameObject teleportToActivate;
 
     public int coinValue = 5;
     private Animator animator;
@@ -53,48 +54,51 @@ public class EnemyHealth : MonoBehaviour
     }
 
     void Die()
+{
+    if (isDead) return;
+    isDead = true;
 
+    // Play death sound
+    if (SFXManager.instance != null && DEADClip != null)
     {
-        if (isDead) return;
-        isDead = true;
+        SFXManager.instance.PlayClip(DEADClip, transform);
+    }
 
-        // Play death sound
-        if (SFXManager.instance != null && DEADClip != null)
-        {
-            SFXManager.instance.PlayClip(DEADClip, transform);
-        }
+    // Stop NavMeshAgent if present
+    var agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
+    if (agent != null && agent.isOnNavMesh)
+    {
+        agent.isStopped = true;
+    }
 
-        // Stop NavMeshAgent if present
-        var agent = GetComponent<NavMeshAgent>();
-        if (agent != null && agent.isOnNavMesh)
-        {
-            agent.isStopped = true;
-        }
+    // Disable collider
+    var collider = GetComponent<Collider>();
+    if (collider != null)
+    {
+        collider.enabled = false;
+    }
 
-        // Disable collider
-        var collider = GetComponent<Collider>();
-        if (collider != null)
-        {
-            collider.enabled = false;
-        }
+    // Trigger death animation
+    if (animator != null)
+    {
+        animator.SetTrigger("Die");
+    }
 
-        // Trigger death animation
-        if (animator != null)
-        {
-            animator.SetTrigger("Die");
-        }
+    // Add coins
+    if (CoinManager.Instance != null)
+    {
+        CoinManager.Instance.AddCoins(coinValue);
+    }
 
-        // Add coins
-        if (CoinManager.Instance != null)
-        {
-            CoinManager.Instance.AddCoins(coinValue);
-        }
+    // Objective handling
+    var mgr = FindFirstObjectByType<ObjectiveManager>();
+    if (mgr != null)
+    {
+        var current = mgr.GetCurrentObjective();
+        var slot = mgr.GetCurrentSlot();
 
-        // Objective handling
-        var mgr = FindFirstObjectByType<ObjectiveManager>();
-        if (mgr != null)
+        if (current != null)
         {
-            
             if (!CompareTag("Boss") && current.type == ObjectiveType.KillEnemies)
             {
                 enemiesKilled++;
@@ -109,20 +113,25 @@ public class EnemyHealth : MonoBehaviour
                     mgr.CompleteCurrentObjective();
                 }
             }
-
-            
             else if (CompareTag("Boss") && current.type == ObjectiveType.KillBoss)
             {
                 mgr.CompleteCurrentObjective();
             }
+
+            if (CompareTag("Boss") && teleportToActivate != null)
+        {
+            teleportToActivate.SetActive(true);
+            Debug.Log("Boss defeated! Activating teleport.");
         }
-
-
-        // Destroy enemy after delay
-        Destroy(gameObject, 3f);
+        }
     }
 
+    // Destroy enemy after delay
     Destroy(gameObject, 3f);
 }
 
+
+
 }
+
+
