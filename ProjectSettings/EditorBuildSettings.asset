@@ -11,10 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Prolog.unity
     guid: b658b604d24f54c849579ae6994ba4dc
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Level 1 audio clone.unity
     guid: a1a7b12924d7c4844ac1bb4a9747f78d
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Level 1.unity
     guid: 348bd009b8452334989dd926f4e3b600
   - enabled: 1
