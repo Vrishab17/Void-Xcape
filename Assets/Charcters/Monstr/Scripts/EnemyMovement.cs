@@ -7,6 +7,7 @@ public class EnemyAI : MonoBehaviour
     public GameObject enemyBodyModel;
     public Transform player;
     public int coinValue = 5;
+    public GameObject teleportToActivate; //  Teleport that appears on boss death
 
     private PlayerHealth playerHealth;
     private Animator animator;
@@ -259,19 +260,7 @@ public class EnemyAI : MonoBehaviour
         if (enemyHealth != null && enemyHealth.isDead)
             return;
 
-
-    public void Die()
-    {
-        if (isDead) return;
-        isDead = true;
-        EnemyDrop drop = GetComponent<EnemyDrop>();
-        if (drop != null)
-        {
-            drop.DropItem(transform.position);
-        }   
-
         bool isMoving = agent.velocity.magnitude > 0.1f;
-
 
         if (isMoving && WALKClip != null && SFXManager.instance != null)
         {
@@ -329,7 +318,6 @@ public class EnemyAI : MonoBehaviour
         if (isDead) return;
         isDead = true;
 
-
         StopMovement();
         animator.SetFloat("Speed", 0f);
         animator.SetTrigger("Die");
@@ -340,6 +328,13 @@ public class EnemyAI : MonoBehaviour
 
         if (CoinManager.Instance != null)
             CoinManager.Instance.AddCoins(coinValue);
+
+        // Make teleport appear if this is the boss
+        if (CompareTag("Boss") && teleportToActivate != null)
+        {
+            teleportToActivate.SetActive(true);
+            Debug.Log("Boss defeated! Activating teleport.");
+        }
 
         Destroy(gameObject, 3f);
     }
