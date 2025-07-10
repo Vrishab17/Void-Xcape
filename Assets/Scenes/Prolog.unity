@@ -284,7 +284,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d37bed3204a454f26908947cbd28e793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  nextSceneName: Level 1 audio clone
+  nextSceneName: Level 1
 --- !u!4 &320031462
 Transform:
   m_ObjectHideFlags: 0

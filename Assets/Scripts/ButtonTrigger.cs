@@ -14,7 +14,7 @@ public class ButtonTrigger : MonoBehaviour
             if (lockedDoor != null)
                 lockedDoor.TriggerOpen();
 
-            // ✅ Check if this is the "Solve the puzzle" objective (e.g., index 3)
+            // Check if this is the "Solve the puzzle" objective (e.g., index 3)
             ObjectiveManager mgr = FindFirstObjectByType<ObjectiveManager>();
             if (mgr != null && mgr.GetCurrentIndex() == 3)
             {

@@ -1463,7 +1463,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyBodyModel: {fileID: 5503603694087002197}
-  player: {fileID: 0}
+  player: {fileID: 4687704808250968065, guid: 2fc29175ce8dd481e8becf8c4b556a5f, type: 3}
   detectionRange: 30
   attackRange: 2
   giveUpRange: 10

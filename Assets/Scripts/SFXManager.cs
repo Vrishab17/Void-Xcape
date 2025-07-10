@@ -29,7 +29,7 @@ public class SFXManager : MonoBehaviour
         }
     }
     
-    private float CalculateVolumeByDistance(Vector3 soundPosition)
+    public float CalculateVolumeByDistance(Vector3 soundPosition)
     {
         if (player == null) return 1f; // Full volume if no player reference
         
